@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panel Administrador - Ven a Formarte</title>
+    <link rel="stylesheet" href="../css/index.css">
+    <link rel="icon" href="../img/logo.png" type="image/png">
+</head>
+<body class="pizarra-bg">
+    <!-- Navegación -->
+    <nav class="navbar">
+        <a href="#" class="navbar-brand">
+            <span>🎓 Ven a Formarte - Admin</span>
+        </a>
+        <div class="navbar-menu">
+            <span class="user-info">👤 <span id="userName">Administrador</span></span>
+            <a href="#" id="logoutBtn" class="btn btn-outline" style="padding: 8px 16px;">Salir</a>
+        </div>
+    </nav>
+
+    <div class="admin-container">
+        <!-- Sidebar -->
+        <aside class="admin-sidebar">
+            <ul class="admin-menu">
+                <li><a href="#" class="active" data-section="dashboard">📊 Dashboard</a></li>
+                <li><a href="#" data-section="usuarios">👥 Usuarios</a></li>
+                <li><a href="#" data-section="preguntas">❓ Preguntas</a></li>
+               <!-- <li><a href="#" data-section="sesiones">📅 Sesiones</a></li>-->
+                <li><a href="#" data-section="contenido">📚 Contenido</a></li>
+            </ul>
+        </aside>
+
+        <!-- Contenido principal -->
+        <main class="admin-content">
+            <!-- Dashboard -->
+            <section id="dashboardSection" class="admin-section">
+                <div class="admin-header">
+                    <h1>📊 Dashboard</h1>
+                </div>
+                
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-numero" id="totalUsuarios">0</div>
+                        <div class="stat-label">Total Usuarios</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-numero" id="usuariosActivos">0</div>
+                        <div class="stat-label">Usuarios Activos</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-numero" id="certificadosEmitidos">0</div>
+                        <div class="stat-label">Certificados</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-numero" id="tasaCompletitud">0%</div>
+                        <div class="stat-label">Tasa Completitud</div>
+                    </div>
+                </div>
+
+                <div class="stats-grid" style="grid-template-columns: repeat(3, 1fr);">
+                    <div class="stat-card">
+                        <div class="stat-numero" id="completaronT1">0</div>
+                        <div class="stat-label">Completaron Temática 1</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-numero" id="completaronT2">0</div>
+                        <div class="stat-label">Completaron Temática 2</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-numero" id="completaronT3">0</div>
+                        <div class="stat-label">Completaron Temática 3</div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Usuarios -->
+            <section id="usuariosSection" class="admin-section hidden">
+                <div class="admin-header">
+                    <h1>👥 Gestión de Usuarios</h1>
+                    <button class="btn btn-primary" onclick="abrirModalUsuario()">+ Nuevo Usuario</button>
+                </div>
+
+                <div class="card" style="margin-bottom: 20px;">
+                    <div style="display: flex; gap: 15px; flex-wrap: wrap;">
+                        <input type="text" id="busquedaUsuario" class="form-control" placeholder="Buscar por nombre, correo o cédula..." style="flex: 1; min-width: 200px;">
+                        <select id="filtroEstado" class="form-control" style="width: 150px;">
+                            <option value="">Todos</option>
+                            <option value="Activo">Activos</option>
+                            <option value="Inactivo">Inactivos</option>
+                        </select>
+                        <select id="filtroTipo" class="form-control" style="width: 150px;">
+                            <option value="">Todos</option>
+                            <option value="Asesor">Asesores</option>
+                            <option value="Administrador">Admins</option>
+                        </select>
+                        <button class="btn btn-secondary" onclick="buscarUsuarios()">🔍 Buscar</button>
+                    </div>
+                </div>
+
+                <div class="tabla-container">
+                    <table class="tabla">
+                        <thead>
+                            <tr>
+                                <th>Nombre</th>
+                                <th>Cédula</th>
+                                <th>Correo</th>
+                                <th>Tipo</th>
+                                <th>Estado</th>
+                                <th>Progreso</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tablaUsuarios">
+                            <!-- Se llena dinámicamente -->
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="paginacion" id="paginacionUsuarios"></div>
+            </section>
+
+            <!-- Preguntas -->
+            <section id="preguntasSection" class="admin-section hidden">
+                <div class="admin-header">
+                    <h1>❓ Gestión de Preguntas</h1>
+                    <button class="btn btn-primary" onclick="abrirModalPregunta()">+ Nueva Pregunta</button>
+                </div>
+
+                <div class="card" style="margin-bottom: 20px;">
+                    <div style="display: flex; gap: 15px;">
+                        <select id="filtroTematica" class="form-control" style="width: 200px;">
+                            <option value="">Todas las temáticas</option>
+                            <option value="1">Temática 1</option>
+                            <option value="2">Temática 2</option>
+                            <option value="3">Temática 3</option>
+                        </select>
+                        <button class="btn btn-secondary" onclick="cargarPreguntas()">🔍 Filtrar</button>
+                    </div>
+                </div>
+
+                <div id="listaPreguntas">
+                    <!-- Se llena dinámicamente -->
+                </div>
+            </section>
+
+            <!-- Sesiones -->
+            <section id="sesionesSection" class="admin-section hidden">
+                <div class="admin-header">
+                    <h1>📅 Sesiones de Usuarios</h1>
+                </div>
+
+                <div class="card" style="margin-bottom: 20px;">
+                    <div style="display: flex; gap: 15px;">
+                        <input type="text" id="busquedaSesion" class="form-control" placeholder="Buscar por nombre o correo..." style="flex: 1;">
+                        <button class="btn btn-secondary" onclick="buscarSesionesUsuario()">🔍 Buscar</button>
+                    </div>
+                </div>
+
+                <div id="infoSesiones" class="hidden">
+                    <div class="card">
+                        <h3 class="titulo-tiza" style="margin-bottom: 15px;">Sesiones de: <span id="nombreSesiones"></span></h3>
+                        <p class="texto-tiza">Tiempo total conectado: <strong id="tiempoTotal"></strong></p>
+                    </div>
+
+                    <div class="tabla-container" style="margin-top: 20px;">
+                        <table class="tabla">
+                            <thead>
+                                <tr>
+                                    <th>Fecha Inicio</th>
+                                    <th>Duración</th>
+                                    <th>Estado</th>
+                                    <th>IP</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tablaSesiones">
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Contenido -->
+            <section id="contenidoSection" class="admin-section hidden">
+                <div class="admin-header">
+                    <h1>📚 Vista Previa del Contenido</h1>
+                </div>
+
+                <div class="card">
+                    <h3 class="titulo-tiza">Temática 1: Lineamientos Técnicos para la Atención Psicosocial</h3>
+                    <p class="texto-tiza">Fundamentos de la atención psicosocial, pilares, componentes y estrategias de intervención.</p>
+                    <a href="tematica1.html" target="_blank" class="btn btn-secondary" style="margin-top: 15px;">Ver Temática 1</a>
+                </div>
+
+                <div class="card">
+                    <h3 class="titulo-tiza">Temática 2: Rutas de Atención Humanitaria</h3>
+                    <p class="texto-tiza">Marco legal, etapas del proceso y ruta de respuesta institucional.</p>
+                    <a href="tematica2.html" target="_blank" class="btn btn-secondary" style="margin-top: 15px;">Ver Temática 2</a>
+                </div>
+
+                <div class="card">
+                    <h3 class="titulo-tiza">Temática 3: Principios Humanitarios Globales</h3>
+                    <p class="texto-tiza">Los cuatro principios fundamentales y otros principios rectores.</p>
+                    <a href="tematica3.html" target="_blank" class="btn btn-secondary" style="margin-top: 15px;">Ver Temática 3</a>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- Modal Usuario -->
+    <div class="modal" id="modalUsuario">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="modalUsuarioTitulo">Nuevo Usuario</h2>
+                <button class="modal-close" onclick="cerrarModal('modalUsuario')">&times;</button>
+            </div>
+            <form id="formUsuario">
+                <input type="hidden" id="usuarioId">
+                <div class="form-group">
+                    <label>Cédula</label>
+                    <input type="text" id="usuarioCedula" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label>Nombre completo</label>
+                    <input type="text" id="usuarioNombre" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label>Correo</label>
+                    <input type="email" id="usuarioCorreo" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label>Teléfono</label>
+                    <input type="tel" id="usuarioTelefono" class="form-control" required>
+                </div>
+                <div class="form-group" id="campoPassword">
+                    <label>Contraseña</label>
+                    <input type="password" id="usuarioPassword" class="form-control" minlength="6">
+                </div>
+                <div class="form-group">
+                    <label>Tipo de Usuario</label>
+                    <select id="usuarioTipo" class="form-control">
+                        <option value="Asesor">Asesor</option>
+                        <option value="Administrador">Administrador</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Estado</label>
+                    <select id="usuarioEstado" class="form-control">
+                        <option value="Activo">Activo</option>
+                        <option value="Inactivo">Inactivo</option>
+                    </select>
+                </div>
+                <button type="submit" class="btn btn-primary btn-block">Guardar</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal Pregunta -->
+    <div class="modal" id="modalPregunta">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="modalPreguntaTitulo">Nueva Pregunta</h2>
+                <button class="modal-close" onclick="cerrarModal('modalPregunta')">&times;</button>
+            </div>
+            <form id="formPregunta">
+                <input type="hidden" id="preguntaId">
+                <div class="form-group">
+                    <label>Temática</label>
+                    <select id="preguntaTematica" class="form-control" required>
+                        <option value="1">Temática 1</option>
+                        <option value="2">Temática 2</option>
+                        <option value="3">Temática 3</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Enunciado</label>
+                    <textarea id="preguntaEnunciado" class="form-control" rows="3" required></textarea>
+                </div>
+                <div class="form-group">
+                    <label>✅ Respuesta Correcta</label>
+                    <input type="text" id="preguntaCorrecta" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label>❌ Respuesta Incorrecta 1</label>
+                    <input type="text" id="preguntaR1" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label>❌ Respuesta Incorrecta 2</label>
+                    <input type="text" id="preguntaR2" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label>❌ Respuesta Incorrecta 3</label>
+                    <input type="text" id="preguntaR3" class="form-control" required>
+                </div>
+                <button type="submit" class="btn btn-primary btn-block">Guardar</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Loading -->
+    <div id="loadingOverlay" class="loading-overlay hidden">
+        <div class="spinner"></div>
+        <p class="loading-text">Cargando...</p>
+    </div>
+
+    <!-- Alert Container -->
+    <div id="alertContainer" style="position: fixed; top: 100px; right: 20px; z-index: 5000; width: 300px;"></div>
+
+    <script src="../js/common.js"></script>
+    <script src="../js/admin.js"></script>
+</body>
+</html>

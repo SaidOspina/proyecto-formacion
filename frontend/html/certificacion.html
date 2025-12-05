@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Certificado - Ven a Formarte</title>
+    <link rel="stylesheet" href="../css/index.css">
+    <link rel="icon" href="../img/logo.png" type="image/png">
+    <style>
+        @media print {
+            body { background: white !important; }
+            .navbar, .btn, .progreso-steps, .progreso-bar, #alertContainer { display: none !important; }
+            .certificado-container { padding: 0 !important; }
+            .certificado { 
+                box-shadow: none !important;
+                border: 3px solid #d4af37 !important;
+            }
+        }
+    </style>
+</head>
+<body class="pizarra-bg">
+    <!-- Banderines -->
+    <div class="banderines">
+        <div class="banderin"></div>
+        <div class="banderin"></div>
+        <div class="banderin"></div>
+        <div class="banderin"></div>
+        <div class="banderin"></div>
+        <div class="banderin"></div>
+        <div class="banderin"></div>
+        <div class="banderin"></div>
+        <div class="banderin"></div>
+        <div class="banderin"></div>
+        <div class="banderin"></div>
+        <div class="banderin"></div>
+    </div>
+
+    <!-- Navegación -->
+    <nav class="navbar">
+        <a href="#" class="navbar-brand">
+            <span>🎓 Ven a Formarte</span>
+        </a>
+        <div class="navbar-menu">
+            <a href="tematica1.html">Temática 1</a>
+            <a href="tematica2.html" id="linkTematica2">Temática 2</a>
+            <a href="tematica3.html" id="linkTematica3">Temática 3</a>
+            <a href="certificacion.html" class="active" id="linkCertificado">Certificado</a>
+            <span class="user-info">👤 <span id="userName">Usuario</span></span>
+            <a href="#" id="logoutBtn" class="btn btn-outline" style="padding: 8px 16px;">Salir</a>
+        </div>
+    </nav>
+
+    <div class="container">
+        <!-- Progreso -->
+        <div class="card" style="margin-top: 20px;">
+            <div class="progreso-steps">
+                <div class="step completed" id="step1">
+                    <div class="step-circle">✓</div>
+                    <span class="step-label">Temática 1</span>
+                </div>
+                <div class="step completed" id="step2">
+                    <div class="step-circle">✓</div>
+                    <span class="step-label">Temática 2</span>
+                </div>
+                <div class="step completed" id="step3">
+                    <div class="step-circle">✓</div>
+                    <span class="step-label">Temática 3</span>
+                </div>
+                <div class="step completed" id="step4">
+                    <div class="step-circle">🎓</div>
+                    <span class="step-label">Certificado</span>
+                </div>
+            </div>
+            <div class="progreso-bar">
+                <div class="progreso-fill" id="progresoFill" style="width: 100%"></div>
+            </div>
+        </div>
+
+        <!-- Alertas -->
+        <div id="alertContainer"></div>
+
+        <!-- Mensaje de no completado -->
+        <div id="noCompletado" class="card hidden" style="text-align: center; padding: 50px;">
+            <h2 class="titulo-tiza" style="font-size: 2rem; margin-bottom: 20px;">⚠️ Curso Incompleto</h2>
+            <p class="texto-tiza" style="font-size: 1.3rem; margin-bottom: 30px;">
+                Debes completar todas las temáticas para obtener tu certificado.
+            </p>
+            <a href="tematica1.html" class="btn btn-primary">Ir al Curso</a>
+        </div>
+
+        <!-- Certificado -->
+        <div class="certificado-container" id="certificadoContainer">
+            <div class="certificado">
+                <img src="../img/logo.png" alt="Logo UARIV" class="certificado-logo" id="logoImg">
+                
+                <h1 class="certificado-titulo">Certificado de Aprobación</h1>
+                <p class="certificado-subtitulo">Otorgado a</p>
+                
+                <h2 class="certificado-nombre" id="nombreUsuario">Nombre del Usuario</h2>
+                <p class="certificado-cedula">C.C. <span id="cedulaUsuario">0000000000</span></p>
+                
+                <p class="certificado-curso">
+                    Por haber completado satisfactoriamente el curso<br>
+                    <strong>"Lineamientos de la UARIV: UNIDAD PARA LAS VÍCTIMAS"</strong><br>
+                    en la plataforma <em>Ven a Formarte</em>
+                </p>
+                
+                <p style="color: #666; font-family: 'Poppins', sans-serif;">
+                    Fecha de emisión: <span id="fechaEmision">DD/MM/AAAA</span>
+                </p>
+                <!--
+                <div class="certificado-footer">
+                    <div class="certificado-firma">
+                        <div class="certificado-firma-linea"></div>
+                        <p class="certificado-firma-nombre">Director(a) de Formación<br>UARIV</p>
+                    </div>
+                    <div class="certificado-firma">
+                        <div class="certificado-firma-linea"></div>
+                        <p class="certificado-firma-nombre">Coordinador(a) del Programa<br>Ven a Formarte</p>
+                    </div>
+                </div>
+                -->
+                
+                <p class="certificado-codigo">Código de verificación: <span id="codigoCertificado">UARIV-0000-XXXXX</span></p>
+            </div>
+            
+            <div style="text-align: center; margin-top: 30px;">
+                <button onclick="window.print()" class="btn btn-primary">
+                    🖨️ Imprimir Certificado
+                </button>
+                <button onclick="descargarPDF()" class="btn btn-secondary" style="margin-left: 15px;">
+                    📥 Descargar PDF
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Loading -->
+    <div id="loadingOverlay" class="loading-overlay hidden">
+        <div class="spinner"></div>
+        <p class="loading-text">Cargando certificado...</p>
+    </div>
+
+    <script src="../js/common.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', async () => {
+            // Verificar autenticación
+            if (!auth.checkAuth()) return;
+
+            ui.updateNavbar();
+            ui.showLoading();
+
+            try {
+                // Obtener certificado
+                const certificado = await progreso.getCertificado();
+
+                if (!certificado) {
+                    // No tiene certificado
+                    document.getElementById('certificadoContainer').classList.add('hidden');
+                    document.getElementById('noCompletado').classList.remove('hidden');
+                    ui.hideLoading();
+                    return;
+                }
+
+                // Llenar datos del certificado
+                document.getElementById('nombreUsuario').textContent = certificado.usuario.nombre;
+                document.getElementById('cedulaUsuario').textContent = certificado.usuario.cedula;
+                document.getElementById('codigoCertificado').textContent = certificado.codigo;
+                document.getElementById('fechaEmision').textContent = format.fecha(certificado.fecha);
+
+            } catch (error) {
+                console.error('Error al cargar certificado:', error);
+                ui.showAlert('Error al cargar el certificado');
+            } finally {
+                ui.hideLoading();
+            }
+        });
+
+        function descargarPDF() {
+            // Simular descarga usando print
+            window.print();
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ven a Formarte - UARIV</title>
+    <link rel="stylesheet" href="css/index.css">
+    <link rel="icon" href="img/logo.png" type="image/png">
+</head>
+<body class="pizarra-bg">
+    <!-- Banderines decorativos -->
+    <div class="banderines">
+        <div class="banderin"></div>
+        <div class="banderin"></div>
+        <div class="banderin"></div>
+        <div class="banderin"></div>
+        <div class="banderin"></div>
+        <div class="banderin"></div>
+        <div class="banderin"></div>
+        <div class="banderin"></div>
+        <div class="banderin"></div>
+        <div class="banderin"></div>
+        <div class="banderin"></div>
+        <div class="banderin"></div>
+    </div>
+
+    <div class="auth-container">
+        <div class="auth-card card">
+            <div class="auth-header logo-header">
+                <div class="logo-circle">
+                    <img src="img/logoFondo.png" alt="Logo UT Funde Caminos">
+                </div>
+                <p class="texto-tiza" style="margin-top: 10px;">Lineamientos UARIV - Unidad para las Víctimas</p>
+            </div>
+
+
+            <!-- Alertas -->
+            <div id="alertContainer"></div>
+
+            <!-- Tabs -->
+            <div class="auth-tabs" id="authTabs">
+                <button class="auth-tab active" data-tab="login">Iniciar Sesión</button>
+                <button class="auth-tab" data-tab="registro">Registrarse</button>
+            </div>
+
+            <!-- Formulario Login -->
+            <form id="loginForm" class="auth-form active">
+                <div class="form-group">
+                    <label for="loginCorreo">📧 Correo electrónico</label>
+                    <input type="email" id="loginCorreo" class="form-control" placeholder="tucorreo@ejemplo.com" required>
+                </div>
+                <div class="form-group">
+                    <label for="loginPassword">🔒 Contraseña</label>
+                    <input type="password" id="loginPassword" class="form-control" placeholder="Tu contraseña" required>
+                </div>
+                <button type="submit" class="btn btn-primary btn-block">
+                    ➡️ Empezar
+                </button>
+                <div class="auth-links">
+                    <a href="#" id="forgotPasswordLink">¿Olvidaste tu contraseña?</a>
+                </div>
+            </form>
+
+            <!-- Formulario Registro -->
+            <form id="registroForm" class="auth-form">
+                <div class="form-group">
+                    <label for="regCedula">🪪 Cédula</label>
+                    <input type="text" id="regCedula" class="form-control" placeholder="Tu número de cédula" required>
+                </div>
+                <div class="form-group">
+                    <label for="regNombre">👤 Nombre completo</label>
+                    <input type="text" id="regNombre" class="form-control" placeholder="Nombre y Apellido" required>
+                </div>
+                <div class="form-group">
+                    <label for="regCorreo">📧 Correo electrónico</label>
+                    <input type="email" id="regCorreo" class="form-control" placeholder="tucorreo@ejemplo.com" required>
+                </div>
+                <div class="form-group">
+                    <label for="regTelefono">📱 Teléfono</label>
+                    <input type="tel" id="regTelefono" class="form-control" placeholder="Tu número de teléfono" required>
+                </div>
+                <div class="form-group">
+                    <label for="regPassword">🔒 Contraseña</label>
+                    <input type="password" id="regPassword" class="form-control" placeholder="Mínimo 6 caracteres" required minlength="6">
+                </div>
+                <div class="form-group">
+                    <label for="regPasswordConfirm">🔒 Confirmar Contraseña</label>
+                    <input type="password" id="regPasswordConfirm" class="form-control" placeholder="Repite tu contraseña" required>
+                </div>
+                <button type="submit" class="btn btn-secondary btn-block">
+                    ✏️ Nueva lección
+                </button>
+            </form>
+
+            <!-- Formulario Recuperar Contraseña -->
+            <form id="recuperarForm" class="auth-form">
+                <p class="texto-tiza" style="margin-bottom: 20px; text-align: center;">
+                    Ingresa tu correo y te enviaremos instrucciones para recuperar tu contraseña.
+                </p>
+                <div class="form-group">
+                    <label for="recuperarCorreo">📧 Correo electrónico</label>
+                    <input type="email" id="recuperarCorreo" class="form-control" placeholder="tucorreo@ejemplo.com" required>
+                </div>
+                <button type="submit" class="btn btn-primary btn-block">
+                    📨 Enviar instrucciones
+                </button>
+                <div class="auth-links" style="justify-content: center;">
+                    <a href="#" id="backToLoginLink">← Volver al inicio de sesión</a>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Loading overlay -->
+    <div id="loadingOverlay" class="loading-overlay hidden">
+        <div class="spinner"></div>
+        <p class="loading-text">Cargando...</p>
+    </div>
+
+    <script src="js/index.js"></script>
+</body>
+</html>
