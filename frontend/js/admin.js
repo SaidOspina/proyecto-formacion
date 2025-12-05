@@ -111,7 +111,7 @@ function renderizarUsuarios(usuarios) {
                 <td>${progresoNum}/3</td>
                 <td class="acciones-btn">
                     <button class="btn-icon edit" onclick="editarUsuario('${u._id}')" title="Editar">✏️</button>
-                    <button class="btn-icon view" onclick="verSesiones('${u._id}', '${u.nombre}')" title="Ver sesiones">📊</button>
+                    <!--<button class="btn-icon view" onclick="verSesiones('${u._id}', '${u.nombre}')" title="Ver sesiones">📊</button> -->
                     <button class="btn-icon delete" onclick="toggleEstadoUsuario('${u._id}')" title="Cambiar estado">🔄</button>
                 </td>
             </tr>
