@@ -21,7 +21,7 @@
     box-sizing: border-box;
 }
 
-@import url('https://fonts.googleapis.com/css2?family=Caveat:wght@400;500;600;700&family=Patrick+Hand&family=Poppins:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Montserrat:wght@400;500;600;700&display=swap');
 
 body {
     font-family: 'Poppins', sans-serif;
@@ -105,13 +105,15 @@ body {
 
 /* ===== TIPOGRAFÍA ===== */
 .titulo-tiza {
-    font-family: 'Caveat', cursive;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 700;
     color: var(--tiza-amarilla);
     text-shadow: 2px 2px 4px rgba(0,0,0,0.3), 0 0 20px rgba(244, 211, 94, 0.3);
 }
 
 .texto-tiza {
-    font-family: 'Patrick Hand', cursive;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 400;
     color: var(--tiza-blanca);
     text-shadow: 1px 1px 2px rgba(0,0,0,0.2);
 }
@@ -145,8 +147,9 @@ body {
 
 .form-group label {
     display: block;
-    font-family: 'Patrick Hand', cursive;
-    font-size: 1.2rem;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 500;
+    font-size: 1rem;
     color: var(--tiza-blanca);
     margin-bottom: 8px;
 }
@@ -176,8 +179,9 @@ body {
     justify-content: center;
     gap: 10px;
     padding: 14px 28px;
-    font-family: 'Patrick Hand', cursive;
-    font-size: 1.3rem;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 600;
+    font-size: 1rem;
     border: none;
     border-radius: 8px;
     cursor: pointer;
@@ -241,10 +245,15 @@ body {
     text-decoration: none;
 }
 
-.navbar-brand img { height: 50px; }
+.navbar-brand img { 
+    height: 50px;
+    border-radius: 8px;
+}
+
 .navbar-brand span {
-    font-family: 'Caveat', cursive;
-    font-size: 1.8rem;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 700;
+    font-size: 1.5rem;
     color: var(--tiza-amarilla);
 }
 
@@ -257,8 +266,9 @@ body {
 .navbar-menu a {
     color: var(--tiza-blanca);
     text-decoration: none;
-    font-family: 'Patrick Hand', cursive;
-    font-size: 1.2rem;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 500;
+    font-size: 1rem;
     padding: 8px 16px;
     border-radius: 6px;
     transition: all 0.3s ease;
@@ -278,7 +288,7 @@ body {
     padding: 40px 20px;
 }
 
-.auth-card { width: 100%; max-width: 450px; }
+.auth-card { width: 100%; max-width: 500px; }
 
 .auth-header {
     text-align: center;
@@ -286,15 +296,17 @@ body {
 }
 
 .auth-header h1 {
-    font-family: 'Caveat', cursive;
-    font-size: 2.5rem;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 700;
+    font-size: 2rem;
     color: var(--tiza-amarilla);
     margin-bottom: 10px;
 }
 
 .auth-header p {
-    font-family: 'Patrick Hand', cursive;
-    font-size: 1.2rem;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 400;
+    font-size: 1rem;
     opacity: 0.9;
 }
 
@@ -311,8 +323,9 @@ body {
     border: 2px solid transparent;
     border-radius: 8px;
     color: var(--tiza-blanca);
-    font-family: 'Patrick Hand', cursive;
-    font-size: 1.2rem;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 500;
+    font-size: 1rem;
     cursor: pointer;
     transition: all 0.3s ease;
 }
@@ -339,8 +352,47 @@ body {
 .auth-links a {
     color: var(--tiza-amarilla);
     text-decoration: none;
-    font-family: 'Patrick Hand', cursive;
-    font-size: 1.1rem;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 500;
+    font-size: 0.95rem;
+}
+
+/* ===== LOGOS EN AUTH ===== */
+.logos-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 30px;
+    margin-bottom: 20px;
+}
+
+.logo-auth {
+    height: 80px;
+    width: auto;
+    object-fit: contain;
+}
+
+.logo-circle {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    border: 4px solid #ffffff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.logo-circle img {
+    width: 90%;
+    height: 90%;
+    object-fit: contain;
+}
+
+.logo-header {
+    text-align: center;
+    margin-bottom: 25px;
 }
 
 /* ===== ALERTAS ===== */
@@ -348,8 +400,9 @@ body {
     padding: 15px 20px;
     border-radius: 8px;
     margin-bottom: 20px;
-    font-family: 'Patrick Hand', cursive;
-    font-size: 1.1rem;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 500;
+    font-size: 1rem;
 }
 
 .alert-error { background: rgba(255, 107, 107, 0.2); border: 2px solid var(--error); color: #ff8a8a; }
@@ -363,15 +416,17 @@ body {
 }
 
 .curso-header h1 {
-    font-family: 'Caveat', cursive;
-    font-size: 3.5rem;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 700;
+    font-size: 3rem;
     color: var(--tiza-amarilla);
     margin-bottom: 10px;
 }
 
 .curso-header h2 {
-    font-family: 'Patrick Hand', cursive;
-    font-size: 2rem;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 500;
+    font-size: 1.5rem;
     opacity: 0.9;
 }
 
@@ -383,14 +438,16 @@ body {
 }
 
 .tematica-texto {
-    font-family: 'Patrick Hand', cursive;
-    font-size: 1.2rem;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 400;
+    font-size: 1.1rem;
     line-height: 1.8;
 }
 
 .tematica-texto h3 {
-    font-family: 'Caveat', cursive;
-    font-size: 2rem;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 700;
+    font-size: 1.6rem;
     color: var(--tiza-amarilla);
     margin-bottom: 15px;
 }
@@ -409,34 +466,6 @@ body {
     display: block;
 }
 
-/* Contenedor circular del logo */
-.logo-circle {
-    width: 180px;           /* Ajusta el tamaño del círculo */
-    height: 180px;
-    border-radius: 50%;
-    border: 4px solid #ffffff; /* Borde estilo tiza */
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    overflow: hidden;
-    margin: 0 auto;
-    background: rgba(255, 255, 255, 0.1);
-}
-
-/* Imagen dentro del círculo */
-.logo-circle img {
-    width: 100%;
-    height: 100%;
-    object-fit: contain;
-}
-
-/* Centrado del bloque del logo */
-.logo-header {
-    text-align: center;
-    margin-bottom: 25px;
-}
-
-
 /* ===== EVALUACIÓN ===== */
 .evaluacion-container { margin-top: 40px; }
 
@@ -446,8 +475,9 @@ body {
 }
 
 .evaluacion-header h2 {
-    font-family: 'Caveat', cursive;
-    font-size: 2.5rem;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 700;
+    font-size: 2rem;
     color: var(--tiza-naranja);
 }
 
@@ -460,15 +490,17 @@ body {
 }
 
 .pregunta-numero {
-    font-family: 'Caveat', cursive;
-    font-size: 1.5rem;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 600;
+    font-size: 1.2rem;
     color: var(--tiza-naranja);
     margin-bottom: 10px;
 }
 
 .pregunta-texto {
-    font-family: 'Patrick Hand', cursive;
-    font-size: 1.3rem;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 400;
+    font-size: 1.1rem;
     margin-bottom: 20px;
 }
 
@@ -519,8 +551,9 @@ body {
 }
 
 .opcion-texto {
-    font-family: 'Patrick Hand', cursive;
-    font-size: 1.1rem;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 400;
+    font-size: 1rem;
 }
 
 /* ===== PROGRESO ===== */
@@ -562,8 +595,9 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
-    font-family: 'Caveat', cursive;
-    font-size: 1.5rem;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 600;
+    font-size: 1.2rem;
     transition: all 0.3s ease;
 }
 
@@ -576,8 +610,9 @@ body {
 }
 
 .step-label {
-    font-family: 'Patrick Hand', cursive;
-    font-size: 1rem;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 500;
+    font-size: 0.9rem;
 }
 
 /* ===== MODAL RESULTADO ===== */
@@ -616,8 +651,9 @@ body {
 .resultado-icon { font-size: 80px; margin-bottom: 20px; }
 
 .resultado-titulo {
-    font-family: 'Caveat', cursive;
-    font-size: 2.5rem;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 700;
+    font-size: 2rem;
     margin-bottom: 15px;
 }
 
@@ -625,8 +661,9 @@ body {
 .resultado-titulo.reprobado { color: var(--error); }
 
 .resultado-puntuacion {
-    font-family: 'Patrick Hand', cursive;
-    font-size: 1.5rem;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 500;
+    font-size: 1.2rem;
     margin-bottom: 25px;
 }
 
@@ -658,17 +695,31 @@ body {
 .certificado::before { top: 20px; left: 20px; border-right: none; border-bottom: none; }
 .certificado::after { bottom: 20px; right: 20px; border-left: none; border-top: none; }
 
-.certificado-logo { width: 120px; margin-bottom: 20px; }
+.certificado-logos {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 40px;
+    margin-bottom: 20px;
+}
+
+.certificado-logo { 
+    width: 100px; 
+    height: auto;
+    object-fit: contain;
+}
 
 .certificado-titulo {
-    font-family: 'Caveat', cursive;
-    font-size: 3rem;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 700;
+    font-size: 2.5rem;
     color: #1a3a2a;
     margin-bottom: 10px;
 }
 
 .certificado-subtitulo {
     font-family: 'Poppins', sans-serif;
+    font-weight: 400;
     font-size: 1.2rem;
     color: #666;
     margin-bottom: 30px;
@@ -677,8 +728,9 @@ body {
 }
 
 .certificado-nombre {
-    font-family: 'Caveat', cursive;
-    font-size: 2.5rem;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 700;
+    font-size: 2.2rem;
     color: #d4af37;
     border-bottom: 2px solid #d4af37;
     display: inline-block;
@@ -688,6 +740,7 @@ body {
 
 .certificado-cedula {
     font-family: 'Poppins', sans-serif;
+    font-weight: 400;
     font-size: 1rem;
     color: #666;
     margin-bottom: 30px;
@@ -695,7 +748,8 @@ body {
 
 .certificado-curso {
     font-family: 'Poppins', sans-serif;
-    font-size: 1.3rem;
+    font-weight: 400;
+    font-size: 1.2rem;
     color: #333;
     margin-bottom: 40px;
     line-height: 1.6;
@@ -717,6 +771,7 @@ body {
     left: 50%;
     transform: translateX(-50%);
     font-family: 'Poppins', sans-serif;
+    font-weight: 400;
     font-size: 0.8rem;
     color: #999;
 }
@@ -744,8 +799,9 @@ body {
     padding: 12px 16px;
     color: var(--tiza-blanca);
     text-decoration: none;
-    font-family: 'Patrick Hand', cursive;
-    font-size: 1.2rem;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 500;
+    font-size: 1rem;
     border-radius: 8px;
     transition: all 0.3s ease;
 }
@@ -768,8 +824,9 @@ body {
 }
 
 .admin-header h1 {
-    font-family: 'Caveat', cursive;
-    font-size: 2.5rem;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 700;
+    font-size: 2rem;
     color: var(--tiza-amarilla);
 }
 
@@ -790,28 +847,34 @@ body {
     padding: 15px;
     text-align: left;
     border-bottom: 1px solid rgba(255,255,255,0.1);
-    font-family: 'Patrick Hand', cursive;
+    font-family: 'Poppins', sans-serif;
 }
 
 .tabla th {
     background: rgba(26, 58, 42, 0.9);
     color: var(--tiza-amarilla);
-    font-size: 1.2rem;
+    font-weight: 600;
+    font-size: 1rem;
 }
 
-.tabla td { font-size: 1.1rem; }
+.tabla td { 
+    font-weight: 400;
+    font-size: 0.95rem; 
+}
+
 .tabla tr:hover { background: rgba(255,255,255,0.05); }
 
 .badge {
     display: inline-block;
     padding: 4px 12px;
     border-radius: 20px;
-    font-size: 0.9rem;
+    font-size: 0.85rem;
+    font-weight: 500;
 }
 
 .badge-activo { background: rgba(81, 207, 102, 0.3); color: var(--exito); border: 1px solid var(--exito); }
 .badge-inactivo { background: rgba(255, 107, 107, 0.3); color: var(--error); border: 1px solid var(--error); }
-.badge-admin { background: rgba(244, 211, 94, 0.3); color: var(--tiza-amarilla); border: 1px solid var(--tiza-amarilla); }
+.badge-admin, .badge-administrador { background: rgba(244, 211, 94, 0.3); color: var(--tiza-amarilla); border: 1px solid var(--tiza-amarilla); }
 .badge-asesor { background: rgba(238, 137, 89, 0.3); color: var(--tiza-naranja); border: 1px solid var(--tiza-naranja); }
 
 .acciones-btn { display: flex; gap: 8px; }
@@ -877,8 +940,9 @@ body {
 }
 
 .modal-header h2 {
-    font-family: 'Caveat', cursive;
-    font-size: 2rem;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 700;
+    font-size: 1.6rem;
     color: var(--tiza-amarilla);
 }
 
@@ -909,14 +973,16 @@ body {
 }
 
 .stat-numero {
-    font-family: 'Caveat', cursive;
-    font-size: 3rem;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 700;
+    font-size: 2.5rem;
     color: var(--tiza-amarilla);
 }
 
 .stat-label {
-    font-family: 'Patrick Hand', cursive;
-    font-size: 1.2rem;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 500;
+    font-size: 1rem;
     opacity: 0.9;
 }
 
@@ -934,8 +1000,9 @@ body {
     border: 2px solid var(--tiza-blanca);
     border-radius: 8px;
     color: var(--tiza-blanca);
-    font-family: 'Patrick Hand', cursive;
-    font-size: 1.1rem;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 500;
+    font-size: 1rem;
     cursor: pointer;
     transition: all 0.3s ease;
 }
@@ -974,9 +1041,35 @@ body {
 }
 
 .loading-text {
-    font-family: 'Patrick Hand', cursive;
-    font-size: 1.5rem;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 500;
+    font-size: 1.2rem;
     margin-top: 20px;
+}
+
+/* ===== FOOTER ===== */
+.footer {
+    background: rgba(26, 58, 42, 0.95);
+    border-top: 4px solid var(--borde-madera);
+    padding: 20px;
+    text-align: center;
+    margin-top: auto;
+}
+
+.footer-text {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 500;
+    font-size: 0.9rem;
+    color: var(--tiza-blanca);
+    opacity: 0.9;
+}
+
+.footer-convenio {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 600;
+    font-size: 1rem;
+    color: var(--tiza-amarilla);
+    margin-top: 8px;
 }
 
 /* ===== RESPONSIVE ===== */
@@ -984,22 +1077,27 @@ body {
     .tematica-content { grid-template-columns: 1fr; }
     .admin-container { grid-template-columns: 1fr; }
     .admin-sidebar { display: none; }
+    .logos-container { gap: 20px; }
+    .logo-auth { height: 60px; }
 }
 
 @media (max-width: 768px) {
     .navbar { flex-direction: column; gap: 15px; }
     .navbar-menu { flex-wrap: wrap; justify-content: center; }
-    .curso-header h1 { font-size: 2.5rem; }
+    .curso-header h1 { font-size: 2rem; }
     .certificado { padding: 30px; }
-    .certificado-titulo { font-size: 2rem; }
+    .certificado-titulo { font-size: 1.8rem; }
     .certificado-footer { flex-direction: column; gap: 30px; }
     .progreso-steps { flex-direction: column; gap: 20px; }
+    .logos-container { flex-direction: column; gap: 15px; }
+    .logo-auth { height: 50px; }
+    .certificado-logos { flex-direction: column; gap: 20px; }
 }
 
 @media (max-width: 480px) {
     .container { padding: 10px; }
     .card { padding: 20px; }
-    .btn { padding: 12px 20px; font-size: 1.1rem; }
+    .btn { padding: 12px 20px; font-size: 0.95rem; }
     .stats-grid { grid-template-columns: 1fr; }
 }
 
@@ -1013,3 +1111,11 @@ body {
 }
 
 .hidden { display: none !important; }
+
+/* ===== USER INFO ===== */
+.user-info {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 500;
+    font-size: 0.95rem;
+    color: var(--tiza-blanca);
+}

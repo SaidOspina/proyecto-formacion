@@ -9,12 +9,13 @@
     <style>
         @media print {
             body { background: white !important; }
-            .navbar, .btn, .progreso-steps, .progreso-bar, #alertContainer { display: none !important; }
-            .certificado-container { padding: 0 !important; }
+            .navbar, .btn, .progreso-steps, .progreso-bar, #alertContainer, .footer, .card:first-of-type { display: none !important; }
+            .certificado-container { padding: 0 !important; display: block !important; }
             .certificado { 
                 box-shadow: none !important;
                 border: 3px solid #d4af37 !important;
             }
+            .container { padding: 0 !important; }
         }
     </style>
 </head>
@@ -38,7 +39,7 @@
     <!-- Navegación -->
     <nav class="navbar">
         <a href="#" class="navbar-brand">
-            <span>🎓 Ven a Formarte</span>
+            <img src="../img/logo.png" alt="Logo">
         </a>
         <div class="navbar-menu">
             <a href="tematica1.html">Temática 1</a>
@@ -82,7 +83,7 @@
         <!-- Mensaje de no completado -->
         <div id="noCompletado" class="card hidden" style="text-align: center; padding: 50px;">
             <h2 class="titulo-tiza" style="font-size: 2rem; margin-bottom: 20px;">⚠️ Curso Incompleto</h2>
-            <p class="texto-tiza" style="font-size: 1.3rem; margin-bottom: 30px;">
+            <p class="texto-tiza" style="font-size: 1.1rem; margin-bottom: 30px;">
                 Debes completar todas las temáticas para obtener tu certificado.
             </p>
             <a href="tematica1.html" class="btn btn-primary">Ir al Curso</a>
@@ -91,7 +92,11 @@
         <!-- Certificado -->
         <div class="certificado-container" id="certificadoContainer">
             <div class="certificado">
-                <img src="../img/logo.png" alt="Logo UARIV" class="certificado-logo" id="logoImg">
+                <!-- Logos -->
+                <div class="certificado-logos">
+                    <img src="../img/logoFondo.png" alt="Logo UT Funde Caminos" class="certificado-logo">
+                    <img src="../img/logoUnidadVictimas.jpeg" alt="Logo Unidad para las Víctimas" class="certificado-logo">
+                </div>
                 
                 <h1 class="certificado-titulo">Certificado de Aprobación</h1>
                 <p class="certificado-subtitulo">Otorgado a</p>
@@ -102,24 +107,16 @@
                 <p class="certificado-curso">
                     Por haber completado satisfactoriamente el curso<br>
                     <strong>"Lineamientos de la UARIV: UNIDAD PARA LAS VÍCTIMAS"</strong><br>
-                    en la plataforma <em>Ven a Formarte</em>
+                    en la plataforma Ven a Formarte
                 </p>
                 
-                <p style="color: #666; font-family: 'Poppins', sans-serif;">
+                <p style="color: #666; font-family: 'Poppins', sans-serif; margin-bottom: 20px;">
                     Fecha de emisión: <span id="fechaEmision">DD/MM/AAAA</span>
                 </p>
-                <!--
-                <div class="certificado-footer">
-                    <div class="certificado-firma">
-                        <div class="certificado-firma-linea"></div>
-                        <p class="certificado-firma-nombre">Director(a) de Formación<br>UARIV</p>
-                    </div>
-                    <div class="certificado-firma">
-                        <div class="certificado-firma-linea"></div>
-                        <p class="certificado-firma-nombre">Coordinador(a) del Programa<br>Ven a Formarte</p>
-                    </div>
-                </div>
-                -->
+
+                <p style="color: #1a3a2a; font-family: 'Montserrat', sans-serif; font-weight: 600; font-size: 0.95rem;">
+                    CONVENIO DE ASOCIACIÓN N° 2354-2025
+                </p>
                 
                 <p class="certificado-codigo">Código de verificación: <span id="codigoCertificado">UARIV-0000-XXXXX</span></p>
             </div>
@@ -134,6 +131,12 @@
             </div>
         </div>
     </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <p class="footer-text">Plataforma de Formación - Unidad para las Víctimas</p>
+        <p class="footer-convenio">CONVENIO DE ASOCIACIÓN N° 2354-2025</p>
+    </footer>
 
     <!-- Loading -->
     <div id="loadingOverlay" class="loading-overlay hidden">
@@ -177,7 +180,6 @@
         });
 
         function descargarPDF() {
-            // Simular descarga usando print
             window.print();
         }
     </script>

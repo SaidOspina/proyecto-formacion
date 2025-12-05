@@ -11,7 +11,8 @@
     <!-- Navegación -->
     <nav class="navbar">
         <a href="#" class="navbar-brand">
-            <span>🎓 Ven a Formarte - Admin</span>
+            <img src="../img/logo.png" alt="Logo" style="height: 45px;">
+            <span style="font-size: 1.3rem;">Admin Panel</span>
         </a>
         <div class="navbar-menu">
             <span class="user-info">👤 <span id="userName">Administrador</span></span>
@@ -26,9 +27,14 @@
                 <li><a href="#" class="active" data-section="dashboard">📊 Dashboard</a></li>
                 <li><a href="#" data-section="usuarios">👥 Usuarios</a></li>
                 <li><a href="#" data-section="preguntas">❓ Preguntas</a></li>
-               <li><a href="#" data-section="sesiones">📅 Sesiones</a></li>
+                <li><a href="#" data-section="sesiones">📅 Sesiones</a></li>
                 <li><a href="#" data-section="contenido">📚 Contenido</a></li>
             </ul>
+            
+            <!-- Convenio en sidebar -->
+            <div style="position: absolute; bottom: 20px; left: 20px; right: 20px; text-align: center; padding-top: 20px; border-top: 2px solid rgba(255,255,255,0.2);">
+                <p class="footer-convenio" style="font-size: 0.75rem;">CONVENIO DE ASOCIACIÓN N° 2354-2025</p>
+            </div>
         </aside>
 
         <!-- Contenido principal -->
@@ -151,10 +157,16 @@
                 </div>
 
                 <div class="card" style="margin-bottom: 20px;">
-                    <div style="display: flex; gap: 15px;">
+                    <div style="display: flex; gap: 15px; flex-wrap: wrap;">
                         <input type="text" id="busquedaSesion" class="form-control" placeholder="Buscar por nombre o correo..." style="flex: 1;">
-                        <button class="btn btn-secondary" onclick="buscarSesionesUsuario()">🔍 Buscar</button>
+                        <button class="btn btn-secondary" onclick="buscarSesionesUsuario()">🔍 Buscar Usuario</button>
                     </div>
+                </div>
+
+                <!-- Lista de usuarios para seleccionar -->
+                <div id="listaUsuariosSesiones" class="card hidden">
+                    <h3 class="titulo-tiza" style="margin-bottom: 15px;">Selecciona un usuario:</h3>
+                    <div id="usuariosSesionesLista"></div>
                 </div>
 
                 <div id="infoSesiones" class="hidden">
@@ -168,6 +180,7 @@
                             <thead>
                                 <tr>
                                     <th>Fecha Inicio</th>
+                                    <th>Fecha Fin</th>
                                     <th>Duración</th>
                                     <th>Estado</th>
                                     <th>IP</th>
