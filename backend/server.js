@@ -74,4 +74,24 @@ mongoose.connect(process.env.MONGODB_URI, mongoOptions)
         console.log('✅ Conectado a MongoDB');
         app.listen(PORT, '0.0.0.0', () => {
             console.log(`🚀 Servidor corriendo en puerto ${PORT}`);
-            console.log(`🌍 
+            console.log(`🌍 Entorno: ${process.env.NODE_ENV || 'development'}`);
+        });
+    })
+    .catch((error) => {
+        console.error('❌ Error de conexión a MongoDB:', error.message);
+        process.exit(1);
+    });
+
+// Manejo de cierre graceful
+process.on('SIGTERM', async () => {
+    console.log('SIGTERM recibido, cerrando servidor...');
+    await mongoose.connection.close();
+    console.log('Conexión a MongoDB cerrada');
+    process.exit(0);
+});
+
+process.on('SIGINT', async () => {
+    await mongoose.connection.close();
+    console.log('Conexión a MongoDB cerrada');
+    process.exit(0);
+});
