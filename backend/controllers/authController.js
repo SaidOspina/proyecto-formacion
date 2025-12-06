@@ -29,11 +29,28 @@ exports.registro = async (req, res) => {
             });
         }
 
-        // Validar campos adicionales
+        // Validar campos básicos requeridos
+        if (!cedula || !nombre || !correo || !telefono || !contraseña) {
+            return res.status(400).json({
+                success: false,
+                mensaje: 'Todos los campos básicos son requeridos'
+            });
+        }
+
+        // Validar campos demográficos adicionales
         if (!genero || !edad || !profesion || !cargo) {
             return res.status(400).json({
                 success: false,
-                mensaje: 'Todos los campos son requeridos'
+                mensaje: 'Por favor completa todos los campos: género, edad, profesión y cargo'
+            });
+        }
+
+        // Validar edad
+        const edadNum = parseInt(edad);
+        if (isNaN(edadNum) || edadNum < 18 || edadNum > 100) {
+            return res.status(400).json({
+                success: false,
+                mensaje: 'La edad debe estar entre 18 y 100 años'
             });
         }
 
@@ -45,19 +62,20 @@ exports.registro = async (req, res) => {
             });
         }
 
-        // Crear usuario
+        // Crear usuario con todos los campos
         const usuario = await Usuario.create({
-            cedula,
-            nombre,
-            correo,
-            telefono,
+            cedula: cedula.trim(),
+            nombre: nombre.trim(),
+            correo: correo.trim().toLowerCase(),
+            telefono: telefono.trim(),
             contraseña,
             genero,
-            otroGenero: genero === 'Otro' ? otroGenero : '',
-            edad: parseInt(edad),
-            profesion,
-            cargo,
-            tipoUsuario: 'Asesor'
+            otroGenero: genero === 'Otro' ? otroGenero.trim() : '',
+            edad: edadNum,
+            profesion: profesion.trim(),
+            cargo: cargo.trim(),
+            tipoUsuario: 'Asesor',
+            estado: 'Activo'
         });
 
         // Generar token
@@ -69,6 +87,7 @@ exports.registro = async (req, res) => {
             token,
             usuario: {
                 id: usuario._id,
+                cedula: usuario.cedula,
                 nombre: usuario.nombre,
                 correo: usuario.correo,
                 tipoUsuario: usuario.tipoUsuario,
@@ -76,6 +95,7 @@ exports.registro = async (req, res) => {
             }
         });
     } catch (error) {
+        console.error('Error en registro:', error);
         res.status(500).json({
             success: false,
             mensaje: 'Error al registrar usuario',
