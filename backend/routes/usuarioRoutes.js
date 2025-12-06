@@ -8,7 +8,8 @@ const {
     cambiarEstado,
     obtenerSesiones,
     restablecerContraseñaAdmin,
-    restablecerProgreso
+    restablecerProgreso,
+    obtenerEstadisticasDemograficas
 } = require('../controllers/usuarioController');
 const { proteger, soloAdmin } = require('../middleware/auth');
 
@@ -19,6 +20,8 @@ router.use(soloAdmin);
 router.route('/')
     .get(obtenerUsuarios)
     .post(crearUsuario);
+
+router.get('/estadisticas/demograficas', obtenerEstadisticasDemograficas);
 
 router.route('/:id')
     .get(obtenerUsuario)

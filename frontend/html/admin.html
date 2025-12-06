@@ -26,11 +26,10 @@
             <ul class="admin-menu">
                 <li><a href="#" class="active" data-section="dashboard">📊 Dashboard</a></li>
                 <li><a href="#" data-section="usuarios">👥 Usuarios</a></li>
+                <li><a href="#" data-section="estadisticas">📈 Estadísticas Demográficas</a></li>
                 <li><a href="#" data-section="preguntas">❓ Preguntas</a></li>
-                <!-- <li><a href="#" data-section="sesiones">📅 Sesiones</a></li>-->
                 <li><a href="#" data-section="contenido">📚 Contenido</a></li>
             </ul>
-            
         </aside>
 
         <!-- Contenido principal -->
@@ -107,6 +106,9 @@
                                 <th>Nombre</th>
                                 <th>Cédula</th>
                                 <th>Correo</th>
+                                <th>Género</th>
+                                <th>Edad</th>
+                                <th>Cargo</th>
                                 <th>Tipo</th>
                                 <th>Estado</th>
                                 <th>Progreso</th>
@@ -120,6 +122,90 @@
                 </div>
 
                 <div class="paginacion" id="paginacionUsuarios"></div>
+            </section>
+
+            <!-- Estadísticas Demográficas -->
+            <section id="estadisticasSection" class="admin-section hidden">
+                <div class="admin-header">
+                    <h1>📈 Estadísticas Demográficas</h1>
+                    <button class="btn btn-secondary" onclick="cargarEstadisticasDemograficas()">🔄 Actualizar</button>
+                </div>
+
+                <!-- Por Género -->
+                <div class="card">
+                    <h3 class="titulo-tiza" style="margin-bottom: 20px;">⚧ Distribución por Género</h3>
+                    <div class="tabla-container">
+                        <table class="tabla">
+                            <thead>
+                                <tr>
+                                    <th>Género</th>
+                                    <th>Total</th>
+                                    <th>Porcentaje</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tablaGenero">
+                                <tr><td colspan="3" style="text-align: center;">Cargando...</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Por Edad -->
+                <div class="card">
+                    <h3 class="titulo-tiza" style="margin-bottom: 20px;">🎂 Distribución por Rango de Edad</h3>
+                    <div class="tabla-container">
+                        <table class="tabla">
+                            <thead>
+                                <tr>
+                                    <th>Rango de Edad</th>
+                                    <th>Total</th>
+                                    <th>Porcentaje</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tablaEdad">
+                                <tr><td colspan="3" style="text-align: center;">Cargando...</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Por Profesión -->
+                <div class="card">
+                    <h3 class="titulo-tiza" style="margin-bottom: 20px;">🎓 Top 10 Profesiones</h3>
+                    <div class="tabla-container">
+                        <table class="tabla">
+                            <thead>
+                                <tr>
+                                    <th>Profesión</th>
+                                    <th>Total</th>
+                                    <th>Porcentaje</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tablaProfesion">
+                                <tr><td colspan="3" style="text-align: center;">Cargando...</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Por Cargo -->
+                <div class="card">
+                    <h3 class="titulo-tiza" style="margin-bottom: 20px;">💼 Top 10 Cargos</h3>
+                    <div class="tabla-container">
+                        <table class="tabla">
+                            <thead>
+                                <tr>
+                                    <th>Cargo</th>
+                                    <th>Total</th>
+                                    <th>Porcentaje</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tablaCargo">
+                                <tr><td colspan="3" style="text-align: center;">Cargando...</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
             </section>
 
             <!-- Preguntas -->
@@ -143,49 +229,6 @@
 
                 <div id="listaPreguntas">
                     <!-- Se llena dinámicamente -->
-                </div>
-            </section>
-
-            <!-- Sesiones -->
-            <section id="sesionesSection" class="admin-section hidden">
-                <div class="admin-header">
-                    <h1>📅 Sesiones de Usuarios</h1>
-                </div>
-
-                <div class="card" style="margin-bottom: 20px;">
-                    <div style="display: flex; gap: 15px; flex-wrap: wrap;">
-                        <input type="text" id="busquedaSesion" class="form-control" placeholder="Buscar por nombre o correo..." style="flex: 1;">
-                        <button class="btn btn-secondary" onclick="buscarSesionesUsuario()">🔍 Buscar Usuario</button>
-                    </div>
-                </div>
-
-                <!-- Lista de usuarios para seleccionar -->
-                <div id="listaUsuariosSesiones" class="card hidden">
-                    <h3 class="titulo-tiza" style="margin-bottom: 15px;">Selecciona un usuario:</h3>
-                    <div id="usuariosSesionesLista"></div>
-                </div>
-
-                <div id="infoSesiones" class="hidden">
-                    <div class="card">
-                        <h3 class="titulo-tiza" style="margin-bottom: 15px;">Sesiones de: <span id="nombreSesiones"></span></h3>
-                        <p class="texto-tiza">Tiempo total conectado: <strong id="tiempoTotal"></strong></p>
-                    </div>
-
-                    <div class="tabla-container" style="margin-top: 20px;">
-                        <table class="tabla">
-                            <thead>
-                                <tr>
-                                    <th>Fecha Inicio</th>
-                                    <th>Fecha Fin</th>
-                                    <th>Duración</th>
-                                    <th>Estado</th>
-                                    <th>IP</th>
-                                </tr>
-                            </thead>
-                            <tbody id="tablaSesiones">
-                            </tbody>
-                        </table>
-                    </div>
                 </div>
             </section>
 
@@ -241,6 +284,38 @@
                     <label>Teléfono</label>
                     <input type="tel" id="usuarioTelefono" class="form-control" required>
                 </div>
+                
+                <!-- Nuevos campos demográficos -->
+                <div class="form-group">
+                    <label>Género</label>
+                    <select id="usuarioGenero" class="form-control" required>
+                        <option value="">Seleccionar</option>
+                        <option value="Masculino">Masculino</option>
+                        <option value="Femenino">Femenino</option>
+                        <option value="Otro">Otro</option>
+                    </select>
+                </div>
+                
+                <div class="form-group hidden" id="campoOtroGenero">
+                    <label>Especifica el género</label>
+                    <input type="text" id="usuarioOtroGenero" class="form-control">
+                </div>
+                
+                <div class="form-group">
+                    <label>Edad</label>
+                    <input type="number" id="usuarioEdad" class="form-control" required min="18" max="100">
+                </div>
+                
+                <div class="form-group">
+                    <label>Profesión</label>
+                    <input type="text" id="usuarioProfesion" class="form-control" required>
+                </div>
+                
+                <div class="form-group">
+                    <label>Cargo</label>
+                    <input type="text" id="usuarioCargo" class="form-control" required>
+                </div>
+                
                 <div class="form-group" id="campoPassword">
                     <label>Contraseña</label>
                     <input type="password" id="usuarioPassword" class="form-control" minlength="6">

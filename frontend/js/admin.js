@@ -16,7 +16,28 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     // Configurar formularios
     initFormularios();
+    
+    // Configurar selector de género en modal
+    initGeneroModal();
 });
+
+// ===== SELECTOR DE GÉNERO EN MODAL =====
+function initGeneroModal() {
+    const generoSelect = document.getElementById('usuarioGenero');
+    const otroGeneroContainer = document.getElementById('campoOtroGenero');
+    const otroGeneroInput = document.getElementById('usuarioOtroGenero');
+
+    generoSelect.addEventListener('change', () => {
+        if (generoSelect.value === 'Otro') {
+            otroGeneroContainer.classList.remove('hidden');
+            otroGeneroInput.required = true;
+        } else {
+            otroGeneroContainer.classList.add('hidden');
+            otroGeneroInput.required = false;
+            otroGeneroInput.value = '';
+        }
+    });
+}
 
 // ===== NAVEGACIÓN =====
 function initNavegacion() {
@@ -37,6 +58,7 @@ function initNavegacion() {
             switch(section) {
                 case 'dashboard': await cargarDashboard(); break;
                 case 'usuarios': await cargarUsuarios(); break;
+                case 'estadisticas': await cargarEstadisticasDemograficas(); break;
                 case 'preguntas': await cargarPreguntas(); break;
             }
         });
@@ -63,6 +85,142 @@ async function cargarDashboard() {
     } finally {
         ui.hideLoading();
     }
+}
+
+// ===== ESTADÍSTICAS DEMOGRÁFICAS =====
+async function cargarEstadisticasDemograficas() {
+    ui.showLoading();
+    try {
+        const data = await api.get('/usuarios/estadisticas/demograficas');
+        
+        if (data.success) {
+            renderizarEstadisticasGenero(data.estadisticas.porGenero);
+            renderizarEstadisticasEdad(data.estadisticas.porEdad);
+            renderizarEstadisticasProfesion(data.estadisticas.porProfesion);
+            renderizarEstadisticasCargo(data.estadisticas.porCargo);
+        }
+    } catch (error) {
+        console.error('Error al cargar estadísticas:', error);
+        ui.showAlert('Error al cargar estadísticas demográficas');
+    } finally {
+        ui.hideLoading();
+    }
+}
+
+function renderizarEstadisticasGenero(datos) {
+    const tbody = document.getElementById('tablaGenero');
+    tbody.innerHTML = '';
+    
+    if (!datos || datos.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="3" style="text-align: center;">No hay datos disponibles</td></tr>';
+        return;
+    }
+    
+    const total = datos.reduce((sum, item) => sum + item.total, 0);
+    
+    datos.forEach(item => {
+        const porcentaje = ((item.total / total) * 100).toFixed(1);
+        let generoDisplay = item._id;
+        
+        // Si es "Otro", mostrar los géneros específicos
+        if (item._id === 'Otro' && item.otrosGeneros && item.otrosGeneros.length > 0) {
+            const otrosUnicos = [...new Set(item.otrosGeneros.filter(g => g))];
+            if (otrosUnicos.length > 0) {
+                generoDisplay += ` (${otrosUnicos.join(', ')})`;
+            }
+        }
+        
+        tbody.innerHTML += `
+            <tr>
+                <td>${generoDisplay}</td>
+                <td>${item.total}</td>
+                <td>${porcentaje}%</td>
+            </tr>
+        `;
+    });
+}
+
+function renderizarEstadisticasEdad(datos) {
+    const tbody = document.getElementById('tablaEdad');
+    tbody.innerHTML = '';
+    
+    if (!datos || datos.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="3" style="text-align: center;">No hay datos disponibles</td></tr>';
+        return;
+    }
+    
+    const total = datos.reduce((sum, item) => sum + item.total, 0);
+    
+    const rangos = {
+        18: '18-24 años',
+        25: '25-34 años',
+        35: '35-44 años',
+        45: '45-54 años',
+        55: '55-64 años',
+        65: '65+ años',
+        'Otros': 'Otros'
+    };
+    
+    datos.forEach(item => {
+        const porcentaje = ((item.total / total) * 100).toFixed(1);
+        const rangoNombre = rangos[item._id] || item._id;
+        
+        tbody.innerHTML += `
+            <tr>
+                <td>${rangoNombre}</td>
+                <td>${item.total}</td>
+                <td>${porcentaje}%</td>
+            </tr>
+        `;
+    });
+}
+
+function renderizarEstadisticasProfesion(datos) {
+    const tbody = document.getElementById('tablaProfesion');
+    tbody.innerHTML = '';
+    
+    if (!datos || datos.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="3" style="text-align: center;">No hay datos disponibles</td></tr>';
+        return;
+    }
+    
+    const total = datos.reduce((sum, item) => sum + item.total, 0);
+    
+    datos.forEach(item => {
+        const porcentaje = ((item.total / total) * 100).toFixed(1);
+        
+        tbody.innerHTML += `
+            <tr>
+                <td>${item._id}</td>
+                <td>${item.total}</td>
+                <td>${porcentaje}%</td>
+            </tr>
+        `;
+    });
+}
+
+function renderizarEstadisticasCargo(datos) {
+    const tbody = document.getElementById('tablaCargo');
+    tbody.innerHTML = '';
+    
+    if (!datos || datos.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="3" style="text-align: center;">No hay datos disponibles</td></tr>';
+        return;
+    }
+    
+    const total = datos.reduce((sum, item) => sum + item.total, 0);
+    
+    datos.forEach(item => {
+        const porcentaje = ((item.total / total) * 100).toFixed(1);
+        
+        tbody.innerHTML += `
+            <tr>
+                <td>${item._id}</td>
+                <td>${item.total}</td>
+                <td>${porcentaje}%</td>
+            </tr>
+        `;
+    });
 }
 
 // ===== USUARIOS =====
@@ -101,17 +259,22 @@ function renderizarUsuarios(usuarios) {
                           (u.progreso.tematica2.completado ? 1 : 0) + 
                           (u.progreso.tematica3.completado ? 1 : 0);
         
+        const generoDisplay = u.genero === 'Otro' && u.otroGenero ? 
+            `${u.genero} (${u.otroGenero})` : u.genero;
+        
         tbody.innerHTML += `
             <tr>
                 <td>${u.nombre}</td>
                 <td>${u.cedula}</td>
                 <td>${u.correo}</td>
+                <td>${generoDisplay || 'N/A'}</td>
+                <td>${u.edad || 'N/A'}</td>
+                <td>${u.cargo || 'N/A'}</td>
                 <td><span class="badge badge-${u.tipoUsuario.toLowerCase()}">${u.tipoUsuario}</span></td>
                 <td><span class="badge badge-${u.estado.toLowerCase()}">${u.estado}</span></td>
                 <td>${progresoNum}/3</td>
                 <td class="acciones-btn">
                     <button class="btn-icon edit" onclick="editarUsuario('${u._id}')" title="Editar">✏️</button>
-                    <!--<button class="btn-icon view" onclick="verSesiones('${u._id}', '${u.nombre}')" title="Ver sesiones">📊</button> -->
                     <button class="btn-icon delete" onclick="toggleEstadoUsuario('${u._id}')" title="Cambiar estado">🔄</button>
                 </td>
             </tr>
@@ -140,6 +303,7 @@ function abrirModalUsuario() {
     document.getElementById('usuarioId').value = '';
     document.getElementById('campoPassword').style.display = 'block';
     document.getElementById('usuarioPassword').required = true;
+    document.getElementById('campoOtroGenero').classList.add('hidden');
     ui.showModal('modalUsuario');
 }
 
@@ -153,8 +317,19 @@ async function editarUsuario(id) {
     document.getElementById('usuarioNombre').value = usuario.nombre;
     document.getElementById('usuarioCorreo').value = usuario.correo;
     document.getElementById('usuarioTelefono').value = usuario.telefono;
+    document.getElementById('usuarioGenero').value = usuario.genero || '';
+    document.getElementById('usuarioEdad').value = usuario.edad || '';
+    document.getElementById('usuarioProfesion').value = usuario.profesion || '';
+    document.getElementById('usuarioCargo').value = usuario.cargo || '';
     document.getElementById('usuarioTipo').value = usuario.tipoUsuario;
     document.getElementById('usuarioEstado').value = usuario.estado;
+    
+    // Manejar "Otro" género
+    if (usuario.genero === 'Otro') {
+        document.getElementById('campoOtroGenero').classList.remove('hidden');
+        document.getElementById('usuarioOtroGenero').value = usuario.otroGenero || '';
+    }
+    
     document.getElementById('campoPassword').style.display = 'none';
     document.getElementById('usuarioPassword').required = false;
     ui.showModal('modalUsuario');
@@ -175,59 +350,6 @@ async function toggleEstadoUsuario(id) {
     } finally {
         ui.hideLoading();
     }
-}
-
-// ===== SESIONES =====
-async function verSesiones(id, nombre) {
-    document.querySelectorAll('.admin-menu a').forEach(i => i.classList.remove('active'));
-    document.querySelector('[data-section="sesiones"]').classList.add('active');
-    document.querySelectorAll('.admin-section').forEach(s => s.classList.add('hidden'));
-    document.getElementById('sesionesSection').classList.remove('hidden');
-
-    ui.showLoading();
-    try {
-        const data = await api.get(`/usuarios/${id}/sesiones`);
-        
-        document.getElementById('infoSesiones').classList.remove('hidden');
-        document.getElementById('nombreSesiones').textContent = nombre;
-        document.getElementById('tiempoTotal').textContent = format.tiempo(data.tiempoTotalConectado || 0);
-
-        const tbody = document.getElementById('tablaSesiones');
-        tbody.innerHTML = '';
-
-        if (data.sesiones && data.sesiones.length > 0) {
-            data.sesiones.forEach(s => {
-                tbody.innerHTML += `
-                    <tr>
-                        <td>${format.fecha(s.fechaHoraInicio)}</td>
-                        <td>${format.tiempo(s.tiempo || 0)}</td>
-                        <td><span class="badge badge-${s.activa ? 'activo' : 'inactivo'}">${s.activa ? 'Activa' : 'Finalizada'}</span></td>
-                        <td>${s.ip || 'N/A'}</td>
-                    </tr>
-                `;
-            });
-        } else {
-            tbody.innerHTML = '<tr><td colspan="4" style="text-align: center;">No hay sesiones registradas</td></tr>';
-        }
-    } catch (error) {
-        ui.showAlert('Error al cargar sesiones');
-    } finally {
-        ui.hideLoading();
-    }
-}
-
-function buscarSesionesUsuario() {
-    const busqueda = document.getElementById('busquedaSesion').value;
-    if (!busqueda) return;
-    
-    api.get(`/usuarios?busqueda=${encodeURIComponent(busqueda)}&limit=1`)
-        .then(data => {
-            if (data.success && data.usuarios.length > 0) {
-                verSesiones(data.usuarios[0]._id, data.usuarios[0].nombre);
-            } else {
-                ui.showAlert('Usuario no encontrado');
-            }
-        });
 }
 
 // ===== PREGUNTAS =====
@@ -341,11 +463,25 @@ function initFormularios() {
         e.preventDefault();
         
         const id = document.getElementById('usuarioId').value;
+        const genero = document.getElementById('usuarioGenero').value;
+        const otroGenero = document.getElementById('usuarioOtroGenero').value;
+        
+        // Validar "Otro" género
+        if (genero === 'Otro' && !otroGenero.trim()) {
+            ui.showAlert('Por favor especifica el género');
+            return;
+        }
+        
         const datos = {
             cedula: document.getElementById('usuarioCedula').value,
             nombre: document.getElementById('usuarioNombre').value,
             correo: document.getElementById('usuarioCorreo').value,
             telefono: document.getElementById('usuarioTelefono').value,
+            genero: genero,
+            otroGenero: genero === 'Otro' ? otroGenero : '',
+            edad: parseInt(document.getElementById('usuarioEdad').value),
+            profesion: document.getElementById('usuarioProfesion').value,
+            cargo: document.getElementById('usuarioCargo').value,
             tipoUsuario: document.getElementById('usuarioTipo').value,
             estado: document.getElementById('usuarioEstado').value
         };

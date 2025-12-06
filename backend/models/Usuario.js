@@ -25,6 +25,32 @@ const usuarioSchema = new mongoose.Schema({
         required: [true, 'El teléfono es requerido'],
         trim: true
     },
+    genero: {
+        type: String,
+        enum: ['Masculino', 'Femenino', 'Otro'],
+        required: [true, 'El género es requerido']
+    },
+    otroGenero: {
+        type: String,
+        trim: true,
+        default: ''
+    },
+    edad: {
+        type: Number,
+        required: [true, 'La edad es requerida'],
+        min: 18,
+        max: 100
+    },
+    profesion: {
+        type: String,
+        required: [true, 'La profesión es requerida'],
+        trim: true
+    },
+    cargo: {
+        type: String,
+        required: [true, 'El cargo es requerido'],
+        trim: true
+    },
     contraseña: {
         type: String,
         required: [true, 'La contraseña es requerida'],

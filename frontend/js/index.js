@@ -26,6 +26,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     initTabs();
     initForms();
+    initGeneroSelector();
 });
 
 // ===== REDIRECCIÓN BASADA EN ROL =====
@@ -35,6 +36,24 @@ const redirectBasedOnRole = (tipoUsuario) => {
     } else {
         window.location.href = 'html/tematica1.html';
     }
+};
+
+// ===== SELECTOR DE GÉNERO =====
+const initGeneroSelector = () => {
+    const generoSelect = document.getElementById('regGenero');
+    const otroGeneroContainer = document.getElementById('otroGeneroContainer');
+    const otroGeneroInput = document.getElementById('regOtroGenero');
+
+    generoSelect.addEventListener('change', () => {
+        if (generoSelect.value === 'Otro') {
+            otroGeneroContainer.classList.remove('hidden');
+            otroGeneroInput.required = true;
+        } else {
+            otroGeneroContainer.classList.add('hidden');
+            otroGeneroInput.required = false;
+            otroGeneroInput.value = '';
+        }
+    });
 };
 
 // ===== TABS =====
@@ -119,11 +138,32 @@ const initForms = () => {
         const nombre = document.getElementById('regNombre').value;
         const correo = document.getElementById('regCorreo').value;
         const telefono = document.getElementById('regTelefono').value;
+        const genero = document.getElementById('regGenero').value;
+        const otroGenero = document.getElementById('regOtroGenero').value;
+        const edad = document.getElementById('regEdad').value;
+        const profesion = document.getElementById('regProfesion').value;
+        const cargo = document.getElementById('regCargo').value;
         const contraseña = document.getElementById('regPassword').value;
         const confirmar = document.getElementById('regPasswordConfirm').value;
 
+        // Validaciones
         if (contraseña !== confirmar) {
             showAlert('Las contraseñas no coinciden');
+            return;
+        }
+
+        if (!genero) {
+            showAlert('Por favor selecciona tu género');
+            return;
+        }
+
+        if (genero === 'Otro' && !otroGenero.trim()) {
+            showAlert('Por favor especifica tu género');
+            return;
+        }
+
+        if (parseInt(edad) < 18 || parseInt(edad) > 100) {
+            showAlert('La edad debe estar entre 18 y 100 años');
             return;
         }
 
@@ -133,7 +173,18 @@ const initForms = () => {
             const response = await fetch(`${API_URL}/auth/registro`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ cedula, nombre, correo, telefono, contraseña })
+                body: JSON.stringify({ 
+                    cedula, 
+                    nombre, 
+                    correo, 
+                    telefono, 
+                    genero,
+                    otroGenero: genero === 'Otro' ? otroGenero : '',
+                    edad: parseInt(edad),
+                    profesion,
+                    cargo,
+                    contraseña 
+                })
             });
 
             const data = await response.json();

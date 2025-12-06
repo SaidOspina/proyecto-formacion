@@ -15,7 +15,7 @@ const generarToken = (id) => {
 // @access  Public
 exports.registro = async (req, res) => {
     try {
-        const { cedula, nombre, correo, telefono, contraseña } = req.body;
+        const { cedula, nombre, correo, telefono, contraseña, genero, otroGenero, edad, profesion, cargo } = req.body;
 
         // Verificar si el usuario ya existe
         const usuarioExistente = await Usuario.findOne({ 
@@ -29,6 +29,22 @@ exports.registro = async (req, res) => {
             });
         }
 
+        // Validar campos adicionales
+        if (!genero || !edad || !profesion || !cargo) {
+            return res.status(400).json({
+                success: false,
+                mensaje: 'Todos los campos son requeridos'
+            });
+        }
+
+        // Si el género es "Otro", validar que se especifique cuál
+        if (genero === 'Otro' && (!otroGenero || otroGenero.trim() === '')) {
+            return res.status(400).json({
+                success: false,
+                mensaje: 'Por favor especifica el género'
+            });
+        }
+
         // Crear usuario
         const usuario = await Usuario.create({
             cedula,
@@ -36,6 +52,11 @@ exports.registro = async (req, res) => {
             correo,
             telefono,
             contraseña,
+            genero,
+            otroGenero: genero === 'Otro' ? otroGenero : '',
+            edad: parseInt(edad),
+            profesion,
+            cargo,
             tipoUsuario: 'Asesor'
         });
 
@@ -269,6 +290,11 @@ exports.obtenerUsuarioActual = async (req, res) => {
                 nombre: usuario.nombre,
                 correo: usuario.correo,
                 telefono: usuario.telefono,
+                genero: usuario.genero,
+                otroGenero: usuario.otroGenero,
+                edad: usuario.edad,
+                profesion: usuario.profesion,
+                cargo: usuario.cargo,
                 tipoUsuario: usuario.tipoUsuario,
                 progreso: usuario.progreso,
                 estado: usuario.estado

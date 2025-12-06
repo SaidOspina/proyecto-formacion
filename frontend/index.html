@@ -66,27 +66,59 @@
             <!-- Formulario Registro -->
             <form id="registroForm" class="auth-form">
                 <div class="form-group">
-                    <label for="regCedula">🪪 Cédula</label>
+                    <label for="regCedula">🪪 Cédula *</label>
                     <input type="text" id="regCedula" class="form-control" placeholder="Tu número de cédula" required>
                 </div>
                 <div class="form-group">
-                    <label for="regNombre">👤 Nombre completo</label>
+                    <label for="regNombre">👤 Nombre completo *</label>
                     <input type="text" id="regNombre" class="form-control" placeholder="Nombre y Apellido" required>
                 </div>
                 <div class="form-group">
-                    <label for="regCorreo">📧 Correo electrónico</label>
+                    <label for="regCorreo">📧 Correo electrónico *</label>
                     <input type="email" id="regCorreo" class="form-control" placeholder="tucorreo@ejemplo.com" required>
                 </div>
                 <div class="form-group">
-                    <label for="regTelefono">📱 Teléfono</label>
+                    <label for="regTelefono">📱 Teléfono *</label>
                     <input type="tel" id="regTelefono" class="form-control" placeholder="Tu número de teléfono" required>
                 </div>
+                
+                <!-- Nuevos campos demográficos -->
                 <div class="form-group">
-                    <label for="regPassword">🔒 Contraseña</label>
+                    <label for="regGenero">⚧ Género *</label>
+                    <select id="regGenero" class="form-control" required>
+                        <option value="">Selecciona tu género</option>
+                        <option value="Masculino">Masculino</option>
+                        <option value="Femenino">Femenino</option>
+                        <option value="Otro">Otro</option>
+                    </select>
+                </div>
+                
+                <div class="form-group hidden" id="otroGeneroContainer">
+                    <label for="regOtroGenero">Especifica tu género *</label>
+                    <input type="text" id="regOtroGenero" class="form-control" placeholder="Por favor especifica">
+                </div>
+                
+                <div class="form-group">
+                    <label for="regEdad">🎂 Edad *</label>
+                    <input type="number" id="regEdad" class="form-control" placeholder="Tu edad" required min="18" max="100">
+                </div>
+                
+                <div class="form-group">
+                    <label for="regProfesion">🎓 Profesión *</label>
+                    <input type="text" id="regProfesion" class="form-control" placeholder="Tu profesión u oficio" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="regCargo">💼 Cargo *</label>
+                    <input type="text" id="regCargo" class="form-control" placeholder="Tu cargo actual" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="regPassword">🔒 Contraseña *</label>
                     <input type="password" id="regPassword" class="form-control" placeholder="Mínimo 6 caracteres" required minlength="6">
                 </div>
                 <div class="form-group">
-                    <label for="regPasswordConfirm">🔒 Confirmar Contraseña</label>
+                    <label for="regPasswordConfirm">🔒 Confirmar Contraseña *</label>
                     <input type="password" id="regPasswordConfirm" class="form-control" placeholder="Repite tu contraseña" required>
                 </div>
                 <button type="submit" class="btn btn-secondary btn-block">

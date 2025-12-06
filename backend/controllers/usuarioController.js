@@ -78,7 +78,7 @@ exports.obtenerUsuario = async (req, res) => {
 // @access  Private/Admin
 exports.crearUsuario = async (req, res) => {
     try {
-        const { cedula, nombre, correo, telefono, contraseña, tipoUsuario } = req.body;
+        const { cedula, nombre, correo, telefono, contraseña, tipoUsuario, genero, otroGenero, edad, profesion, cargo } = req.body;
 
         const usuarioExistente = await Usuario.findOne({ 
             $or: [{ cedula }, { correo }] 
@@ -91,12 +91,33 @@ exports.crearUsuario = async (req, res) => {
             });
         }
 
+        // Validar campos adicionales
+        if (!genero || !edad || !profesion || !cargo) {
+            return res.status(400).json({
+                success: false,
+                mensaje: 'Todos los campos son requeridos'
+            });
+        }
+
+        // Si el género es "Otro", validar que se especifique cuál
+        if (genero === 'Otro' && (!otroGenero || otroGenero.trim() === '')) {
+            return res.status(400).json({
+                success: false,
+                mensaje: 'Por favor especifica el género'
+            });
+        }
+
         const usuario = await Usuario.create({
             cedula,
             nombre,
             correo,
             telefono,
             contraseña,
+            genero,
+            otroGenero: genero === 'Otro' ? otroGenero : '',
+            edad: parseInt(edad),
+            profesion,
+            cargo,
             tipoUsuario: tipoUsuario || 'Asesor'
         });
 
@@ -124,7 +145,7 @@ exports.crearUsuario = async (req, res) => {
 // @access  Private/Admin
 exports.actualizarUsuario = async (req, res) => {
     try {
-        const { nombre, correo, telefono, tipoUsuario, estado } = req.body;
+        const { nombre, correo, telefono, tipoUsuario, estado, genero, otroGenero, edad, profesion, cargo } = req.body;
 
         let usuario = await Usuario.findById(req.params.id);
 
@@ -143,12 +164,30 @@ exports.actualizarUsuario = async (req, res) => {
                     success: false,
                     mensaje: 'El correo ya está en uso'
                 });
-            }
         }
+        }
+
+        // Si el género es "Otro", validar que se especifique cuál
+        if (genero === 'Otro' && (!otroGenero || otroGenero.trim() === '')) {
+            return res.status(400).json({
+                success: false,
+                mensaje: 'Por favor especifica el género'
+            });
+        }
+
+        const updateData = { nombre, correo, telefono, tipoUsuario, estado };
+        
+        if (genero) {
+            updateData.genero = genero;
+            updateData.otroGenero = genero === 'Otro' ? otroGenero : '';
+        }
+        if (edad) updateData.edad = parseInt(edad);
+        if (profesion) updateData.profesion = profesion;
+        if (cargo) updateData.cargo = cargo;
 
         usuario = await Usuario.findByIdAndUpdate(
             req.params.id,
-            { nombre, correo, telefono, tipoUsuario, estado },
+            updateData,
             { new: true, runValidators: true }
         ).select('-contraseña');
 
@@ -299,6 +338,92 @@ exports.restablecerProgreso = async (req, res) => {
         res.status(500).json({
             success: false,
             mensaje: 'Error al restablecer progreso',
+            error: error.message
+        });
+    }
+};
+
+// @desc    Obtener estadísticas demográficas
+// @route   GET /api/usuarios/estadisticas/demograficas
+// @access  Private/Admin
+exports.obtenerEstadisticasDemograficas = async (req, res) => {
+    try {
+        // Estadísticas por género
+        const porGenero = await Usuario.aggregate([
+            { $match: { tipoUsuario: 'Asesor' } },
+            { 
+                $group: { 
+                    _id: '$genero', 
+                    total: { $sum: 1 },
+                    otrosGeneros: { 
+                        $push: { 
+                            $cond: [
+                                { $eq: ['$genero', 'Otro'] },
+                                '$otroGenero',
+                                '$$REMOVE'
+                            ]
+                        }
+                    }
+                } 
+            },
+            { $sort: { total: -1 } }
+        ]);
+
+        // Estadísticas por rango de edad
+        const porEdad = await Usuario.aggregate([
+            { $match: { tipoUsuario: 'Asesor' } },
+            {
+                $bucket: {
+                    groupBy: '$edad',
+                    boundaries: [18, 25, 35, 45, 55, 65, 100],
+                    default: 'Otros',
+                    output: {
+                        total: { $sum: 1 },
+                        usuarios: { $push: { nombre: '$nombre', edad: '$edad' } }
+                    }
+                }
+            }
+        ]);
+
+        // Estadísticas por profesión
+        const porProfesion = await Usuario.aggregate([
+            { $match: { tipoUsuario: 'Asesor' } },
+            { 
+                $group: { 
+                    _id: '$profesion', 
+                    total: { $sum: 1 } 
+                } 
+            },
+            { $sort: { total: -1 } },
+            { $limit: 10 }
+        ]);
+
+        // Estadísticas por cargo
+        const porCargo = await Usuario.aggregate([
+            { $match: { tipoUsuario: 'Asesor' } },
+            { 
+                $group: { 
+                    _id: '$cargo', 
+                    total: { $sum: 1 } 
+                } 
+            },
+            { $sort: { total: -1 } },
+            { $limit: 10 }
+        ]);
+
+        res.status(200).json({
+            success: true,
+            estadisticas: {
+                porGenero,
+                porEdad,
+                porProfesion,
+                porCargo
+            }
+        });
+    } catch (error) {
+        res.status(500).json({
+            success: false,
+            mensaje: 'Error al obtener estadísticas demográficas',
             error: error.message
         });
     }
