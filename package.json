@@ -1,0 +1,17 @@
+{
+  "name": "ven-a-formarte",
+  "version": "1.0.0",
+  "description": "Plataforma de formación UARIV",
+  "main": "backend/server.js",
+  "engines": {
+    "node": ">=18.0.0",
+    "npm": ">=9.0.0"
+  },
+  "scripts": {
+    "start": "cd backend && npm install && node server.js",
+    "install-deps": "cd backend && npm install"
+  },
+  "keywords": ["uariv", "formacion"],
+  "author": "UARIV",
+  "license": "ISC"
+}
