@@ -1,0 +1,11 @@
+node_modules
+npm-debug.log
+.env
+.git
+.gitignore
+README.md
+.DS_Store
+*.log
+backend/node_modules
+backend/package-lock.json
+package-lock.json
