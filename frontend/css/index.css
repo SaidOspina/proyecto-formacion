@@ -62,6 +62,7 @@ body {
     align-items: flex-start;
     padding-top: 5px;
     z-index: 1;
+    overflow: hidden;
 }
 
 .banderin {
@@ -236,6 +237,7 @@ body {
     position: sticky;
     top: 0;
     z-index: 1000;
+    flex-wrap: wrap;
 }
 
 .navbar-brand {
@@ -261,6 +263,7 @@ body {
     display: flex;
     gap: 20px;
     align-items: center;
+    flex-wrap: wrap;
 }
 
 .navbar-menu a {
@@ -272,6 +275,7 @@ body {
     padding: 8px 16px;
     border-radius: 6px;
     transition: all 0.3s ease;
+    white-space: nowrap;
 }
 
 .navbar-menu a:hover, .navbar-menu a.active {
@@ -288,7 +292,10 @@ body {
     padding: 40px 20px;
 }
 
-.auth-card { width: 100%; max-width: 500px; }
+.auth-card { 
+    width: 100%; 
+    max-width: 500px; 
+}
 
 .auth-header {
     text-align: center;
@@ -364,6 +371,7 @@ body {
     align-items: center;
     gap: 30px;
     margin-bottom: 20px;
+    flex-wrap: wrap;
 }
 
 .logo-auth {
@@ -453,9 +461,9 @@ body {
 }
 
 .tematica-imagen {
-    display: inline-block;
-    width: auto;
-    height: auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .tematica-imagen img {
@@ -554,6 +562,7 @@ body {
     font-family: 'Poppins', sans-serif;
     font-weight: 400;
     font-size: 1rem;
+    flex: 1;
 }
 
 /* ===== PROGRESO ===== */
@@ -577,6 +586,8 @@ body {
     display: flex;
     justify-content: space-between;
     margin-bottom: 30px;
+    flex-wrap: wrap;
+    gap: 10px;
 }
 
 .step {
@@ -584,6 +595,8 @@ body {
     flex-direction: column;
     align-items: center;
     gap: 8px;
+    flex: 1;
+    min-width: 80px;
 }
 
 .step-circle {
@@ -613,6 +626,7 @@ body {
     font-family: 'Poppins', sans-serif;
     font-weight: 500;
     font-size: 0.9rem;
+    text-align: center;
 }
 
 /* ===== MODAL RESULTADO ===== */
@@ -630,6 +644,7 @@ body {
     opacity: 0;
     visibility: hidden;
     transition: all 0.3s ease;
+    padding: 20px;
 }
 
 .resultado-modal.show { opacity: 1; visibility: visible; }
@@ -669,7 +684,7 @@ body {
 
 /* ===== CERTIFICADO ===== */
 .certificado-container {
-    padding: 40px;
+    padding: 40px 20px;
     max-width: 900px;
     margin: 0 auto;
 }
@@ -701,6 +716,7 @@ body {
     align-items: center;
     gap: 40px;
     margin-bottom: 20px;
+    flex-wrap: wrap;
 }
 
 .certificado-logo { 
@@ -759,6 +775,8 @@ body {
     display: flex;
     justify-content: space-around;
     margin-top: 40px;
+    flex-wrap: wrap;
+    gap: 30px;
 }
 
 .certificado-firma { text-align: center; }
@@ -821,6 +839,8 @@ body {
     justify-content: space-between;
     align-items: center;
     margin-bottom: 30px;
+    flex-wrap: wrap;
+    gap: 15px;
 }
 
 .admin-header h1 {
@@ -839,6 +859,7 @@ body {
 
 .tabla {
     width: 100%;
+    min-width: 600px;
     border-collapse: collapse;
     background: rgba(45, 90, 69, 0.9);
 }
@@ -870,6 +891,7 @@ body {
     border-radius: 20px;
     font-size: 0.85rem;
     font-weight: 500;
+    white-space: nowrap;
 }
 
 .badge-activo { background: rgba(81, 207, 102, 0.3); color: var(--exito); border: 1px solid var(--exito); }
@@ -877,7 +899,11 @@ body {
 .badge-admin, .badge-administrador { background: rgba(244, 211, 94, 0.3); color: var(--tiza-amarilla); border: 1px solid var(--tiza-amarilla); }
 .badge-asesor { background: rgba(238, 137, 89, 0.3); color: var(--tiza-naranja); border: 1px solid var(--tiza-naranja); }
 
-.acciones-btn { display: flex; gap: 8px; }
+.acciones-btn { 
+    display: flex; 
+    gap: 8px;
+    flex-wrap: wrap;
+}
 
 .btn-icon {
     width: 36px;
@@ -911,6 +937,7 @@ body {
     opacity: 0;
     visibility: hidden;
     transition: all 0.3s ease;
+    padding: 20px;
 }
 
 .modal.show { opacity: 1; visibility: visible; }
@@ -952,6 +979,7 @@ body {
     color: var(--tiza-blanca);
     font-size: 2rem;
     cursor: pointer;
+    line-height: 1;
 }
 
 .modal-close:hover { color: var(--error); }
@@ -992,6 +1020,7 @@ body {
     justify-content: center;
     gap: 10px;
     margin-top: 30px;
+    flex-wrap: wrap;
 }
 
 .paginacion button {
@@ -1072,35 +1101,6 @@ body {
     margin-top: 8px;
 }
 
-/* ===== RESPONSIVE ===== */
-@media (max-width: 992px) {
-    .tematica-content { grid-template-columns: 1fr; }
-    .admin-container { grid-template-columns: 1fr; }
-    .admin-sidebar { display: none; }
-    .logos-container { gap: 20px; }
-    .logo-auth { height: 60px; }
-}
-
-@media (max-width: 768px) {
-    .navbar { flex-direction: column; gap: 15px; }
-    .navbar-menu { flex-wrap: wrap; justify-content: center; }
-    .curso-header h1 { font-size: 2rem; }
-    .certificado { padding: 30px; }
-    .certificado-titulo { font-size: 1.8rem; }
-    .certificado-footer { flex-direction: column; gap: 30px; }
-    .progreso-steps { flex-direction: column; gap: 20px; }
-    .logos-container { flex-direction: column; gap: 15px; }
-    .logo-auth { height: 50px; }
-    .certificado-logos { flex-direction: column; gap: 20px; }
-}
-
-@media (max-width: 480px) {
-    .container { padding: 10px; }
-    .card { padding: 20px; }
-    .btn { padding: 12px 20px; font-size: 0.95rem; }
-    .stats-grid { grid-template-columns: 1fr; }
-}
-
 /* ===== ANIMACIONES ===== */
 .fade-in { animation: fadeIn 0.5s ease forwards; }
 .slide-up { animation: slideUp 0.5s ease forwards; }
@@ -1118,4 +1118,837 @@ body {
     font-weight: 500;
     font-size: 0.95rem;
     color: var(--tiza-blanca);
+}
+
+/* ===== RESPONSIVE - TABLETS (MÁXIMO 992PX) ===== */
+@media (max-width: 992px) {
+    /* Contenedor */
+    .container {
+        padding: 15px;
+    }
+
+    /* Banderines más pequeños */
+    .banderin {
+        border-left-width: 18px;
+        border-right-width: 18px;
+        border-top-width: 30px;
+        margin: 0 4px;
+    }
+
+    .banderin::before {
+        width: 36px;
+        left: -18px;
+    }
+
+    /* Navegación */
+    .navbar {
+        padding: 12px 20px;
+    }
+
+    .navbar-brand img {
+        height: 40px;
+    }
+
+    .navbar-brand span {
+        font-size: 1.2rem;
+    }
+
+    .navbar-menu {
+        gap: 12px;
+    }
+
+    .navbar-menu a {
+        font-size: 0.9rem;
+        padding: 6px 12px;
+    }
+
+    /* Temáticas */
+    .tematica-content {
+        grid-template-columns: 1fr;
+    }
+
+    .curso-header h1 {
+        font-size: 2.2rem;
+    }
+
+    .curso-header h2 {
+        font-size: 1.2rem;
+    }
+
+    /* Admin */
+    .admin-container {
+        grid-template-columns: 1fr;
+    }
+
+    .admin-sidebar {
+        border-right: none;
+        border-bottom: 4px solid var(--borde-madera);
+    }
+
+    .admin-menu {
+        display: flex;
+        overflow-x: auto;
+        gap: 10px;
+    }
+
+    .admin-menu li {
+        margin-bottom: 0;
+    }
+
+    .admin-content {
+        padding: 20px;
+    }
+
+    /* Logos */
+    .logos-container {
+        gap: 20px;
+    }
+
+    .logo-auth {
+        height: 60px;
+    }
+
+    .logo-circle {
+        width: 100px;
+        height: 100px;
+    }
+
+    /* Estadísticas */
+    .stats-grid {
+        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+        gap: 15px;
+    }
+
+    .stat-numero {
+        font-size: 2rem;
+    }
+
+    /* Certificado */
+    .certificado {
+        padding: 35px;
+    }
+
+    .certificado-titulo {
+        font-size: 2rem;
+    }
+
+    .certificado-nombre {
+        font-size: 1.8rem;
+    }
+
+    .certificado-subtitulo {
+        font-size: 1rem;
+        letter-spacing: 2px;
+    }
+
+    .certificado-curso {
+        font-size: 1rem;
+    }
+
+    .certificado::before, .certificado::after {
+        width: 70px;
+        height: 70px;
+    }
+
+    .certificado::before { top: 15px; left: 15px; }
+    .certificado::after { bottom: 15px; right: 15px; }
+
+    /* Progreso steps */
+    .step {
+        min-width: 60px;
+    }
+
+    .step-circle {
+        width: 45px;
+        height: 45px;
+        font-size: 1rem;
+    }
+
+    .step-label {
+        font-size: 0.8rem;
+    }
+}
+
+/* ===== RESPONSIVE - MÓVILES (MÁXIMO 768PX) ===== */
+@media (max-width: 768px) {
+    /* Navegación */
+    .navbar {
+        flex-direction: column;
+        gap: 12px;
+        padding: 15px;
+    }
+
+    .navbar-menu {
+        width: 100%;
+        justify-content: center;
+        gap: 8px;
+    }
+
+    .navbar-menu a {
+        font-size: 0.85rem;
+        padding: 6px 10px;
+    }
+
+    /* Curso header */
+    .curso-header {
+        padding: 80px 15px 30px;
+    }
+
+    .curso-header h1 {
+        font-size: 1.8rem;
+    }
+
+    .curso-header h2 {
+        font-size: 1rem;
+    }
+
+    /* Tarjetas */
+    .card {
+        padding: 20px;
+        margin-bottom: 15px;
+    }
+
+    /* Auth */
+    .auth-container {
+        padding: 20px 10px;
+    }
+
+    .auth-header h1 {
+        font-size: 1.6rem;
+    }
+
+    .auth-header p {
+        font-size: 0.9rem;
+    }
+
+    .auth-tab {
+        font-size: 0.9rem;
+        padding: 10px;
+    }
+
+    /* Logos */
+    .logos-container {
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    .logo-auth {
+        height: 50px;
+    }
+
+    .logo-circle {
+        width: 80px;
+        height: 80px;
+    }
+
+    /* Formularios */
+    .form-group label {
+        font-size: 0.9rem;
+    }
+
+    .form-control {
+        padding: 10px 14px;
+        font-size: 0.95rem;
+    }
+
+    /* Botones */
+    .btn {
+        padding: 12px 20px;
+        font-size: 0.95rem;
+    }
+
+    /* Evaluación */
+    .evaluacion-header h2 {
+        font-size: 1.5rem;
+    }
+
+    .pregunta-card {
+        padding: 18px;
+    }
+
+    .pregunta-numero {
+        font-size: 1rem;
+    }
+
+    .pregunta-texto {
+        font-size: 1rem;
+    }
+
+    .opcion-texto {
+        font-size: 0.9rem;
+    }
+
+    /* Certificado */
+    .certificado-container {
+        padding: 20px 10px;
+    }
+
+    .certificado {
+        padding: 25px 15px;
+        border-width: 8px;
+    }
+
+    .certificado-logos {
+        flex-direction: column;
+        gap: 20px;
+    }
+
+    .certificado-logo {
+        width: 80px;
+    }
+
+    .certificado-titulo {
+        font-size: 1.5rem;
+    }
+
+    .certificado-subtitulo {
+        font-size: 0.9rem;
+        letter-spacing: 1px;
+    }
+
+    .certificado-nombre {
+        font-size: 1.5rem;
+    }
+
+    .certificado-cedula {
+        font-size: 0.9rem;
+    }
+
+    .certificado-curso {
+        font-size: 0.95rem;
+    }
+
+    .certificado-footer {
+        flex-direction: column;
+        gap: 25px;
+    }
+
+    .certificado-firma-linea {
+        width: 150px;
+    }
+
+    .certificado::before, .certificado::after {
+        width: 50px;
+        height: 50px;
+    }
+
+    .certificado::before { top: 10px; left: 10px; }
+    .certificado::after { bottom: 10px; right: 10px; }
+
+    .certificado-codigo {
+        font-size: 0.7rem;
+        bottom: 20px;
+    }
+
+    /* Progreso */
+    .progreso-steps {
+        gap: 8px;
+    }
+
+    .step {
+        min-width: 70px;
+    }
+
+    .step-circle {
+        width: 40px;
+        height: 40px;
+        font-size: 0.9rem;
+    }
+
+    .step-label {
+        font-size: 0.75rem;
+    }
+
+    /* Modal resultado */
+    .resultado-content {
+        padding: 30px 20px;
+    }
+
+    .resultado-icon {
+        font-size: 60px;
+    }
+
+    .resultado-titulo {
+        font-size: 1.6rem;
+    }
+
+    .resultado-puntuacion {
+        font-size: 1rem;
+    }
+
+    /* Admin */
+    .admin-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .admin-header h1 {
+        font-size: 1.6rem;
+    }
+
+    .admin-menu {
+        flex-wrap: nowrap;
+    }
+
+    .admin-menu a {
+        font-size: 0.9rem;
+        padding: 10px;
+        white-space: nowrap;
+    }
+
+    /* Tablas */
+    .tabla {
+        font-size: 0.85rem;
+    }
+
+    .tabla th, .tabla td {
+        padding: 10px;
+    }
+
+    /* Estadísticas */
+    .stats-grid {
+        grid-template-columns: 1fr;
+    }
+
+    /* Modal */
+    .modal-content {
+        padding: 20px;
+    }
+
+    .modal-header h2 {
+        font-size: 1.3rem;
+    }
+
+    /* Footer */
+    .footer {
+        padding: 15px 10px;
+    }
+
+    .footer-text {
+        font-size: 0.8rem;
+    }
+
+    .footer-convenio {
+        font-size: 0.9rem;
+    }
+}
+
+/* ===== RESPONSIVE - MÓVILES PEQUEÑOS (MÁXIMO 480PX) ===== */
+@media (max-width: 480px) {
+    /* Contenedor principal */
+    .container {
+        padding: 10px;
+    }
+
+    /* Banderines */
+    .banderines {
+        height: 60px;
+    }
+
+    .banderin {
+        border-left-width: 14px;
+        border-right-width: 14px;
+        border-top-width: 24px;
+        margin: 0 3px;
+    }
+
+    .banderin::before {
+        width: 28px;
+        left: -14px;
+        height: 4px;
+    }
+
+    /* Navegación */
+    .navbar-brand img {
+        height: 35px;
+    }
+
+    .navbar-brand span {
+        font-size: 1rem;
+    }
+
+    .navbar-menu {
+        flex-direction: column;
+        width: 100%;
+        gap: 5px;
+    }
+
+    .navbar-menu a {
+        width: 100%;
+        text-align: center;
+    }
+
+    .user-info {
+        width: 100%;
+        text-align: center;
+        font-size: 0.85rem;
+    }
+
+    /* Curso header */
+    .curso-header {
+        padding: 60px 10px 20px;
+    }
+
+    .curso-header h1 {
+        font-size: 1.5rem;
+    }
+
+    .curso-header h2 {
+        font-size: 0.9rem;
+    }
+
+    /* Tarjetas */
+    .card {
+        padding: 15px;
+        border-width: 3px;
+    }
+
+    .card::before {
+        height: 6px;
+    }
+
+    /* Temática texto */
+    .tematica-texto {
+        font-size: 0.95rem;
+    }
+
+    .tematica-texto h3 {
+        font-size: 1.3rem;
+    }
+
+    /* Auth */
+    .auth-card {
+        padding: 20px 15px;
+    }
+
+    .auth-header h1 {
+        font-size: 1.4rem;
+    }
+
+    .auth-tabs {
+        flex-direction: column;
+    }
+
+    .auth-tab {
+        width: 100%;
+    }
+
+    /* Logos */
+    .logo-auth {
+        height: 40px;
+    }
+
+    /* Botones */
+    .btn {
+        padding: 10px 16px;
+        font-size: 0.9rem;
+        gap: 6px;
+    }
+
+    .btn-outline {
+        padding: 6px 12px;
+    }
+
+    /* Evaluación */
+    .evaluacion-header h2 {
+        font-size: 1.3rem;
+    }
+
+    .pregunta-card {
+        padding: 15px;
+    }
+
+    .pregunta-numero {
+        font-size: 0.95rem;
+    }
+
+    .pregunta-texto {
+        font-size: 0.95rem;
+    }
+
+    .opcion {
+        padding: 10px 12px;
+    }
+
+    .opcion-radio {
+        width: 20px;
+        height: 20px;
+    }
+
+    .opcion.selected .opcion-radio::after {
+        width: 10px;
+        height: 10px;
+    }
+
+    .opcion-texto {
+        font-size: 0.85rem;
+    }
+
+    /* Progreso */
+    .progreso-bar {
+        height: 16px;
+    }
+
+    .progreso-steps {
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+
+    .step {
+        min-width: 60px;
+    }
+
+    .step-circle {
+        width: 36px;
+        height: 36px;
+        font-size: 0.85rem;
+        border-width: 2px;
+    }
+
+    .step-label {
+        font-size: 0.7rem;
+    }
+
+    /* Certificado */
+    .certificado {
+        padding: 20px 10px;
+        border-width: 6px;
+    }
+
+    .certificado-logo {
+        width: 60px;
+    }
+
+    .certificado-titulo {
+        font-size: 1.2rem;
+    }
+
+    .certificado-subtitulo {
+        font-size: 0.75rem;
+        letter-spacing: 0.5px;
+    }
+
+    .certificado-nombre {
+        font-size: 1.2rem;
+    }
+
+    .certificado-cedula {
+        font-size: 0.8rem;
+    }
+
+    .certificado-curso {
+        font-size: 0.85rem;
+    }
+
+    .certificado-firma-linea {
+        width: 120px;
+    }
+
+    .certificado-firma-nombre {
+        font-size: 0.8rem;
+    }
+
+    .certificado::before, .certificado::after {
+        width: 40px;
+        height: 40px;
+        border-width: 2px;
+    }
+
+    .certificado::before { top: 8px; left: 8px; }
+    .certificado::after { bottom: 8px; right: 8px; }
+
+    /* Modal */
+    .resultado-content {
+        padding: 25px 15px;
+    }
+
+    .resultado-icon {
+        font-size: 50px;
+    }
+
+    .resultado-titulo {
+        font-size: 1.4rem;
+    }
+
+    .resultado-puntuacion {
+        font-size: 0.95rem;
+    }
+
+    .modal-content {
+        padding: 15px;
+    }
+
+    /* Admin */
+    .admin-content {
+        padding: 15px;
+    }
+
+    .admin-header h1 {
+        font-size: 1.4rem;
+    }
+
+    .admin-menu a {
+        font-size: 0.8rem;
+        padding: 8px;
+    }
+
+    /* Estadísticas */
+    .stat-card {
+        padding: 18px;
+    }
+
+    .stat-numero {
+        font-size: 1.8rem;
+    }
+
+    .stat-label {
+        font-size: 0.9rem;
+    }
+
+    /* Tablas */
+    .tabla {
+        font-size: 0.75rem;
+    }
+
+    .tabla th, .tabla td {
+        padding: 8px;
+    }
+
+    .badge {
+        font-size: 0.75rem;
+        padding: 3px 8px;
+    }
+
+    .btn-icon {
+        width: 32px;
+        height: 32px;
+    }
+
+    /* Paginación */
+    .paginacion button {
+        padding: 8px 12px;
+        font-size: 0.9rem;
+    }
+
+    /* Alertas */
+    .alert {
+        padding: 12px 15px;
+        font-size: 0.9rem;
+    }
+
+    /* Footer */
+    .footer {
+        padding: 12px 8px;
+    }
+
+    .footer-text {
+        font-size: 0.75rem;
+    }
+
+    .footer-convenio {
+        font-size: 0.8rem;
+    }
+}
+
+/* ===== ORIENTACIÓN LANDSCAPE EN MÓVILES ===== */
+@media (max-height: 500px) and (orientation: landscape) {
+    .curso-header {
+        padding: 40px 20px 20px;
+    }
+
+    .curso-header h1 {
+        font-size: 1.5rem;
+    }
+
+    .curso-header h2 {
+        font-size: 1rem;
+    }
+
+    .auth-container {
+        padding: 20px;
+    }
+
+    .certificado {
+        padding: 20px;
+    }
+
+    .modal-content {
+        max-height: 85vh;
+    }
+
+    .progreso-steps {
+        flex-direction: row;
+        overflow-x: auto;
+    }
+}
+
+/* ===== MEJORAS DE ACCESIBILIDAD Y TOUCH ===== */
+@media (hover: none) and (pointer: coarse) {
+    /* Aumentar áreas táctiles en dispositivos touch */
+    .btn {
+        min-height: 44px;
+    }
+
+    .opcion {
+        min-height: 48px;
+    }
+
+    .navbar-menu a {
+        min-height: 44px;
+        display: flex;
+        align-items: center;
+    }
+
+    .admin-menu a {
+        min-height: 44px;
+    }
+
+    .btn-icon {
+        min-width: 44px;
+        min-height: 44px;
+    }
+
+    /* Eliminar efectos hover en touch devices */
+    .btn:hover,
+    .btn-primary:hover,
+    .btn-secondary:hover {
+        transform: none;
+    }
+
+    .opcion:hover {
+        background: rgba(255,255,255,0.1);
+    }
+}
+
+/* ===== IMPRESIÓN ===== */
+@media print {
+    body { 
+        background: white !important; 
+    }
+
+    .navbar, 
+    .btn, 
+    .progreso-steps, 
+    .progreso-bar, 
+    #alertContainer, 
+    .footer, 
+    .banderines,
+    .card:first-of-type { 
+        display: none !important; 
+    }
+
+    .certificado-container { 
+        padding: 0 !important; 
+        display: block !important; 
+    }
+
+    .certificado { 
+        box-shadow: none !important;
+        border: 3px solid #d4af37 !important;
+        page-break-inside: avoid;
+    }
+
+    .container { 
+        padding: 0 !important; 
+    }
 }
