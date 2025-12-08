@@ -23,18 +23,27 @@
 
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Montserrat:wght@400;500;600;700&display=swap');
 
+html {
+    overflow-x: hidden;
+    width: 100%;
+}
+
 body {
     font-family: 'Poppins', sans-serif;
     background: linear-gradient(135deg, var(--pizarra-dark) 0%, var(--pizarra-main) 50%, var(--pizarra-light) 100%);
     min-height: 100vh;
     color: var(--tiza-blanca);
     overflow-x: hidden;
+    width: 100%;
+    position: relative;
 }
 
 .pizarra-bg {
     position: relative;
     background: linear-gradient(135deg, var(--pizarra-dark) 0%, var(--pizarra-main) 50%, var(--pizarra-light) 100%);
     min-height: 100vh;
+    width: 100%;
+    overflow-x: hidden;
 }
 
 .pizarra-bg::before {
@@ -63,6 +72,7 @@ body {
     padding-top: 5px;
     z-index: 1;
     overflow: hidden;
+    width: 100%;
 }
 
 .banderin {
@@ -98,6 +108,7 @@ body {
 /* ===== CONTENEDOR ===== */
 .container {
     max-width: 1200px;
+    width: 100%;
     margin: 0 auto;
     padding: 20px;
     position: relative;
@@ -128,6 +139,9 @@ body {
     padding: 30px;
     margin-bottom: 20px;
     position: relative;
+    width: 100%;
+    max-width: 100%;
+    overflow: hidden;
 }
 
 .card::before {
@@ -144,6 +158,7 @@ body {
 /* ===== FORMULARIOS ===== */
 .form-group {
     margin-bottom: 20px;
+    width: 100%;
 }
 
 .form-group label {
@@ -157,6 +172,7 @@ body {
 
 .form-control {
     width: 100%;
+    max-width: 100%;
     padding: 12px 16px;
     font-family: 'Poppins', sans-serif;
     font-size: 1rem;
@@ -188,6 +204,7 @@ body {
     cursor: pointer;
     transition: all 0.3s ease;
     text-decoration: none;
+    white-space: nowrap;
 }
 
 .btn-primary {
@@ -223,7 +240,7 @@ body {
     color: var(--pizarra-dark);
 }
 
-.btn-block { width: 100%; }
+.btn-block { width: 100%; max-width: 100%; }
 .btn:disabled { opacity: 0.6; cursor: not-allowed; }
 
 /* ===== NAVEGACIÓN ===== */
@@ -231,13 +248,13 @@ body {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 15px 30px;
+    padding: 15px 20px;
     background: rgba(26, 58, 42, 0.95);
     border-bottom: 4px solid var(--borde-madera);
     position: sticky;
     top: 0;
     z-index: 1000;
-    flex-wrap: wrap;
+    width: 100%;
 }
 
 .navbar-brand {
@@ -245,6 +262,8 @@ body {
     align-items: center;
     gap: 15px;
     text-decoration: none;
+    flex-shrink: 0;
+    z-index: 1002;
 }
 
 .navbar-brand img { 
@@ -257,6 +276,47 @@ body {
     font-weight: 700;
     font-size: 1.5rem;
     color: var(--tiza-amarilla);
+}
+
+/* Contenedor derecho del navbar */
+.navbar-right {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    z-index: 1002;
+}
+
+/* Menú Hamburguesa */
+.menu-toggle {
+    display: none;
+    flex-direction: column;
+    gap: 5px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 8px;
+    z-index: 1002;
+    position: relative;
+}
+
+.menu-toggle span {
+    width: 30px;
+    height: 3px;
+    background: var(--tiza-amarilla);
+    border-radius: 3px;
+    transition: all 0.3s ease;
+}
+
+.menu-toggle.active span:nth-child(1) {
+    transform: rotate(45deg) translate(8px, 8px);
+}
+
+.menu-toggle.active span:nth-child(2) {
+    opacity: 0;
+}
+
+.menu-toggle.active span:nth-child(3) {
+    transform: rotate(-45deg) translate(7px, -7px);
 }
 
 .navbar-menu {
@@ -290,6 +350,7 @@ body {
     align-items: center;
     min-height: calc(100vh - 100px);
     padding: 40px 20px;
+    width: 100%;
 }
 
 .auth-card { 
@@ -377,6 +438,7 @@ body {
 .logo-auth {
     height: 80px;
     width: auto;
+    max-width: 100%;
     object-fit: contain;
 }
 
@@ -411,6 +473,8 @@ body {
     font-family: 'Poppins', sans-serif;
     font-weight: 500;
     font-size: 1rem;
+    width: 100%;
+    word-wrap: break-word;
 }
 
 .alert-error { background: rgba(255, 107, 107, 0.2); border: 2px solid var(--error); color: #ff8a8a; }
@@ -421,6 +485,7 @@ body {
 .curso-header {
     text-align: center;
     padding: 100px 20px 40px;
+    width: 100%;
 }
 
 .curso-header h1 {
@@ -429,6 +494,7 @@ body {
     font-size: 3rem;
     color: var(--tiza-amarilla);
     margin-bottom: 10px;
+    word-wrap: break-word;
 }
 
 .curso-header h2 {
@@ -436,6 +502,7 @@ body {
     font-weight: 500;
     font-size: 1.5rem;
     opacity: 0.9;
+    word-wrap: break-word;
 }
 
 .tematica-content {
@@ -443,6 +510,7 @@ body {
     grid-template-columns: 1fr 1fr;
     gap: 30px;
     margin-bottom: 40px;
+    width: 100%;
 }
 
 .tematica-texto {
@@ -450,6 +518,7 @@ body {
     font-weight: 400;
     font-size: 1.1rem;
     line-height: 1.8;
+    word-wrap: break-word;
 }
 
 .tematica-texto h3 {
@@ -458,12 +527,14 @@ body {
     font-size: 1.6rem;
     color: var(--tiza-amarilla);
     margin-bottom: 15px;
+    word-wrap: break-word;
 }
 
 .tematica-imagen {
     display: flex;
     align-items: center;
     justify-content: center;
+    width: 100%;
 }
 
 .tematica-imagen img {
@@ -472,10 +543,14 @@ body {
     max-width: 100%;
     border-radius: 8px;
     display: block;
+    object-fit: contain;
 }
 
 /* ===== EVALUACIÓN ===== */
-.evaluacion-container { margin-top: 40px; }
+.evaluacion-container { 
+    margin-top: 40px; 
+    width: 100%;
+}
 
 .evaluacion-header {
     text-align: center;
@@ -487,6 +562,7 @@ body {
     font-weight: 700;
     font-size: 2rem;
     color: var(--tiza-naranja);
+    word-wrap: break-word;
 }
 
 .pregunta-card {
@@ -495,6 +571,8 @@ body {
     border-radius: 12px;
     padding: 25px;
     margin-bottom: 25px;
+    width: 100%;
+    max-width: 100%;
 }
 
 .pregunta-numero {
@@ -510,12 +588,14 @@ body {
     font-weight: 400;
     font-size: 1.1rem;
     margin-bottom: 20px;
+    word-wrap: break-word;
 }
 
 .opciones-respuesta {
     display: flex;
     flex-direction: column;
     gap: 12px;
+    width: 100%;
 }
 
 .opcion {
@@ -528,6 +608,7 @@ body {
     border-radius: 8px;
     cursor: pointer;
     transition: all 0.3s ease;
+    width: 100%;
 }
 
 .opcion:hover { background: rgba(255,255,255,0.2); border-color: var(--tiza-amarilla); }
@@ -563,6 +644,7 @@ body {
     font-weight: 400;
     font-size: 1rem;
     flex: 1;
+    word-wrap: break-word;
 }
 
 /* ===== PROGRESO ===== */
@@ -588,6 +670,7 @@ body {
     margin-bottom: 30px;
     flex-wrap: wrap;
     gap: 10px;
+    width: 100%;
 }
 
 .step {
@@ -596,7 +679,7 @@ body {
     align-items: center;
     gap: 8px;
     flex: 1;
-    min-width: 80px;
+    min-width: 70px;
 }
 
 .step-circle {
@@ -627,6 +710,7 @@ body {
     font-weight: 500;
     font-size: 0.9rem;
     text-align: center;
+    word-wrap: break-word;
 }
 
 /* ===== MODAL RESULTADO ===== */
@@ -670,6 +754,7 @@ body {
     font-weight: 700;
     font-size: 2rem;
     margin-bottom: 15px;
+    word-wrap: break-word;
 }
 
 .resultado-titulo.aprobado { color: var(--exito); }
@@ -680,12 +765,14 @@ body {
     font-weight: 500;
     font-size: 1.2rem;
     margin-bottom: 25px;
+    word-wrap: break-word;
 }
 
 /* ===== CERTIFICADO ===== */
 .certificado-container {
     padding: 40px 20px;
     max-width: 900px;
+    width: 100%;
     margin: 0 auto;
 }
 
@@ -697,6 +784,8 @@ body {
     text-align: center;
     position: relative;
     box-shadow: 0 15px 50px rgba(0,0,0,0.3);
+    width: 100%;
+    max-width: 100%;
 }
 
 .certificado::before, .certificado::after {
@@ -722,6 +811,7 @@ body {
 .certificado-logo { 
     width: 100px; 
     height: auto;
+    max-width: 100%;
     object-fit: contain;
 }
 
@@ -731,6 +821,7 @@ body {
     font-size: 2.5rem;
     color: #1a3a2a;
     margin-bottom: 10px;
+    word-wrap: break-word;
 }
 
 .certificado-subtitulo {
@@ -741,6 +832,7 @@ body {
     margin-bottom: 30px;
     text-transform: uppercase;
     letter-spacing: 3px;
+    word-wrap: break-word;
 }
 
 .certificado-nombre {
@@ -752,6 +844,8 @@ body {
     display: inline-block;
     padding-bottom: 5px;
     margin-bottom: 20px;
+    word-wrap: break-word;
+    max-width: 100%;
 }
 
 .certificado-cedula {
@@ -760,6 +854,7 @@ body {
     font-size: 1rem;
     color: #666;
     margin-bottom: 30px;
+    word-wrap: break-word;
 }
 
 .certificado-curso {
@@ -769,6 +864,7 @@ body {
     color: #333;
     margin-bottom: 40px;
     line-height: 1.6;
+    word-wrap: break-word;
 }
 
 .certificado-footer {
@@ -780,8 +876,17 @@ body {
 }
 
 .certificado-firma { text-align: center; }
-.certificado-firma-linea { width: 200px; border-top: 2px solid #333; margin-bottom: 10px; }
-.certificado-firma-nombre { font-family: 'Poppins', sans-serif; font-size: 0.9rem; color: #333; }
+.certificado-firma-linea { 
+    width: 200px; 
+    max-width: 100%;
+    border-top: 2px solid #333; 
+    margin-bottom: 10px; 
+}
+.certificado-firma-nombre { 
+    font-family: 'Poppins', sans-serif; 
+    font-size: 0.9rem; 
+    color: #333; 
+}
 
 .certificado-codigo {
     position: absolute;
@@ -792,6 +897,8 @@ body {
     font-weight: 400;
     font-size: 0.8rem;
     color: #999;
+    max-width: 90%;
+    word-wrap: break-word;
 }
 
 /* ===== ADMIN ===== */
@@ -799,6 +906,7 @@ body {
     display: grid;
     grid-template-columns: 250px 1fr;
     min-height: calc(100vh - 80px);
+    width: 100%;
 }
 
 .admin-sidebar {
@@ -822,6 +930,7 @@ body {
     font-size: 1rem;
     border-radius: 8px;
     transition: all 0.3s ease;
+    word-wrap: break-word;
 }
 
 .admin-menu a:hover, .admin-menu a.active {
@@ -832,6 +941,7 @@ body {
 .admin-content {
     padding: 30px;
     overflow-y: auto;
+    width: 100%;
 }
 
 .admin-header {
@@ -841,6 +951,7 @@ body {
     margin-bottom: 30px;
     flex-wrap: wrap;
     gap: 15px;
+    width: 100%;
 }
 
 .admin-header h1 {
@@ -848,6 +959,7 @@ body {
     font-weight: 700;
     font-size: 2rem;
     color: var(--tiza-amarilla);
+    word-wrap: break-word;
 }
 
 /* ===== TABLAS ===== */
@@ -855,6 +967,8 @@ body {
     overflow-x: auto;
     border-radius: 12px;
     border: 3px solid var(--borde-madera);
+    width: 100%;
+    max-width: 100%;
 }
 
 .tabla {
@@ -869,6 +983,7 @@ body {
     text-align: left;
     border-bottom: 1px solid rgba(255,255,255,0.1);
     font-family: 'Poppins', sans-serif;
+    word-wrap: break-word;
 }
 
 .tabla th {
@@ -915,6 +1030,7 @@ body {
     align-items: center;
     justify-content: center;
     transition: all 0.3s ease;
+    flex-shrink: 0;
 }
 
 .btn-icon.edit { background: var(--tiza-amarilla); color: var(--pizarra-dark); }
@@ -964,6 +1080,8 @@ body {
     margin-bottom: 25px;
     padding-bottom: 15px;
     border-bottom: 2px solid rgba(255,255,255,0.2);
+    flex-wrap: wrap;
+    gap: 10px;
 }
 
 .modal-header h2 {
@@ -971,6 +1089,7 @@ body {
     font-weight: 700;
     font-size: 1.6rem;
     color: var(--tiza-amarilla);
+    word-wrap: break-word;
 }
 
 .modal-close {
@@ -980,6 +1099,7 @@ body {
     font-size: 2rem;
     cursor: pointer;
     line-height: 1;
+    flex-shrink: 0;
 }
 
 .modal-close:hover { color: var(--error); }
@@ -990,6 +1110,7 @@ body {
     grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
     gap: 20px;
     margin-bottom: 30px;
+    width: 100%;
 }
 
 .stat-card {
@@ -998,6 +1119,7 @@ body {
     border-radius: 12px;
     padding: 25px;
     text-align: center;
+    width: 100%;
 }
 
 .stat-numero {
@@ -1005,6 +1127,7 @@ body {
     font-weight: 700;
     font-size: 2.5rem;
     color: var(--tiza-amarilla);
+    word-wrap: break-word;
 }
 
 .stat-label {
@@ -1012,6 +1135,7 @@ body {
     font-weight: 500;
     font-size: 1rem;
     opacity: 0.9;
+    word-wrap: break-word;
 }
 
 /* ===== PAGINACIÓN ===== */
@@ -1083,6 +1207,7 @@ body {
     padding: 20px;
     text-align: center;
     margin-top: auto;
+    width: 100%;
 }
 
 .footer-text {
@@ -1122,12 +1247,11 @@ body {
 
 /* ===== RESPONSIVE - TABLETS (MÁXIMO 992PX) ===== */
 @media (max-width: 992px) {
-    /* Contenedor */
     .container {
         padding: 15px;
+        width: 100%;
     }
 
-    /* Banderines más pequeños */
     .banderin {
         border-left-width: 18px;
         border-right-width: 18px;
@@ -1140,9 +1264,8 @@ body {
         left: -18px;
     }
 
-    /* Navegación */
     .navbar {
-        padding: 12px 20px;
+        padding: 12px 15px;
     }
 
     .navbar-brand img {
@@ -1154,17 +1277,17 @@ body {
     }
 
     .navbar-menu {
-        gap: 12px;
+        gap: 10px;
     }
 
     .navbar-menu a {
-        font-size: 0.9rem;
-        padding: 6px 12px;
+        font-size: 0.85rem;
+        padding: 6px 10px;
     }
 
-    /* Temáticas */
     .tematica-content {
         grid-template-columns: 1fr;
+        gap: 20px;
     }
 
     .curso-header h1 {
@@ -1175,31 +1298,44 @@ body {
         font-size: 1.2rem;
     }
 
-    /* Admin */
+    /* Admin con menú hamburguesa */
     .admin-container {
         grid-template-columns: 1fr;
     }
 
     .admin-sidebar {
-        border-right: none;
-        border-bottom: 4px solid var(--borde-madera);
+        position: fixed;
+        top: 0;
+        left: -100%;
+        width: 280px;
+        height: 100vh;
+        border-right: 4px solid var(--borde-madera);
+        border-bottom: none;
+        transition: left 0.3s ease;
+        z-index: 999;
+        overflow-y: auto;
+        display: block !important;
+        padding-top: 80px;
     }
 
-    .admin-menu {
+    .admin-sidebar.active {
+        left: 0;
+    }
+
+    /* Mostrar botón hamburguesa en admin */
+    body:has(.admin-container) .menu-toggle {
         display: flex;
-        overflow-x: auto;
-        gap: 10px;
     }
-
-    .admin-menu li {
-        margin-bottom: 0;
+    
+    .menu-toggle {
+        display: flex;
     }
 
     .admin-content {
-        padding: 20px;
+        padding: 20px 15px;
+        width: 100%;
     }
 
-    /* Logos */
     .logos-container {
         gap: 20px;
     }
@@ -1208,12 +1344,6 @@ body {
         height: 60px;
     }
 
-    .logo-circle {
-        width: 100px;
-        height: 100px;
-    }
-
-    /* Estadísticas */
     .stats-grid {
         grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
         gap: 15px;
@@ -1223,9 +1353,8 @@ body {
         font-size: 2rem;
     }
 
-    /* Certificado */
     .certificado {
-        padding: 35px;
+        padding: 30px 20px;
     }
 
     .certificado-titulo {
@@ -1236,26 +1365,9 @@ body {
         font-size: 1.8rem;
     }
 
-    .certificado-subtitulo {
-        font-size: 1rem;
-        letter-spacing: 2px;
-    }
-
-    .certificado-curso {
-        font-size: 1rem;
-    }
-
     .certificado::before, .certificado::after {
-        width: 70px;
-        height: 70px;
-    }
-
-    .certificado::before { top: 15px; left: 15px; }
-    .certificado::after { bottom: 15px; right: 15px; }
-
-    /* Progreso steps */
-    .step {
-        min-width: 60px;
+        width: 60px;
+        height: 60px;
     }
 
     .step-circle {
@@ -1271,25 +1383,66 @@ body {
 
 /* ===== RESPONSIVE - MÓVILES (MÁXIMO 768PX) ===== */
 @media (max-width: 768px) {
-    /* Navegación */
     .navbar {
-        flex-direction: column;
-        gap: 12px;
-        padding: 15px;
+        padding: 12px 15px;
+    }
+
+    /* Menú hamburguesa visible */
+    .menu-toggle {
+        display: flex;
     }
 
     .navbar-menu {
-        width: 100%;
-        justify-content: center;
-        gap: 8px;
+        position: fixed;
+        top: 0;
+        right: -100%;
+        width: 280px;
+        height: 100vh;
+        background: rgba(26, 58, 42, 0.98);
+        flex-direction: column;
+        padding: 80px 20px 20px;
+        gap: 5px;
+        transition: right 0.3s ease;
+        z-index: 999;
+        overflow-y: auto;
+        box-shadow: -5px 0 15px rgba(0,0,0,0.3);
+    }
+
+    .navbar-menu.active {
+        right: 0;
     }
 
     .navbar-menu a {
-        font-size: 0.85rem;
-        padding: 6px 10px;
+        width: 100%;
+        padding: 12px 16px;
+        font-size: 1rem;
+        text-align: left;
     }
 
-    /* Curso header */
+    .user-info {
+        width: 100%;
+        padding: 12px 16px;
+        text-align: left;
+        border-top: 1px solid rgba(255,255,255,0.1);
+        margin-top: 10px;
+    }
+
+    /* Overlay para cerrar menú */
+    .menu-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(0,0,0,0.5);
+        z-index: 998;
+        display: none;
+    }
+
+    .menu-overlay.active {
+        display: block;
+    }
+
     .curso-header {
         padding: 80px 15px 30px;
     }
@@ -1302,31 +1455,19 @@ body {
         font-size: 1rem;
     }
 
-    /* Tarjetas */
     .card {
-        padding: 20px;
+        padding: 20px 15px;
         margin-bottom: 15px;
     }
 
-    /* Auth */
     .auth-container {
-        padding: 20px 10px;
+        padding: 20px 15px;
     }
 
     .auth-header h1 {
         font-size: 1.6rem;
     }
 
-    .auth-header p {
-        font-size: 0.9rem;
-    }
-
-    .auth-tab {
-        font-size: 0.9rem;
-        padding: 10px;
-    }
-
-    /* Logos */
     .logos-container {
         flex-direction: column;
         gap: 15px;
@@ -1336,51 +1477,17 @@ body {
         height: 50px;
     }
 
-    .logo-circle {
-        width: 80px;
-        height: 80px;
-    }
-
-    /* Formularios */
-    .form-group label {
-        font-size: 0.9rem;
-    }
-
-    .form-control {
-        padding: 10px 14px;
-        font-size: 0.95rem;
-    }
-
-    /* Botones */
     .btn {
         padding: 12px 20px;
         font-size: 0.95rem;
     }
 
-    /* Evaluación */
     .evaluacion-header h2 {
         font-size: 1.5rem;
     }
 
     .pregunta-card {
-        padding: 18px;
-    }
-
-    .pregunta-numero {
-        font-size: 1rem;
-    }
-
-    .pregunta-texto {
-        font-size: 1rem;
-    }
-
-    .opcion-texto {
-        font-size: 0.9rem;
-    }
-
-    /* Certificado */
-    .certificado-container {
-        padding: 20px 10px;
+        padding: 18px 15px;
     }
 
     .certificado {
@@ -1394,28 +1501,15 @@ body {
     }
 
     .certificado-logo {
-        width: 80px;
+        width: 70px;
     }
 
     .certificado-titulo {
         font-size: 1.5rem;
     }
 
-    .certificado-subtitulo {
-        font-size: 0.9rem;
-        letter-spacing: 1px;
-    }
-
     .certificado-nombre {
         font-size: 1.5rem;
-    }
-
-    .certificado-cedula {
-        font-size: 0.9rem;
-    }
-
-    .certificado-curso {
-        font-size: 0.95rem;
     }
 
     .certificado-footer {
@@ -1423,30 +1517,13 @@ body {
         gap: 25px;
     }
 
-    .certificado-firma-linea {
-        width: 150px;
-    }
-
     .certificado::before, .certificado::after {
-        width: 50px;
-        height: 50px;
-    }
-
-    .certificado::before { top: 10px; left: 10px; }
-    .certificado::after { bottom: 10px; right: 10px; }
-
-    .certificado-codigo {
-        font-size: 0.7rem;
-        bottom: 20px;
-    }
-
-    /* Progreso */
-    .progreso-steps {
-        gap: 8px;
+        width: 40px;
+        height: 40px;
     }
 
     .step {
-        min-width: 70px;
+        min-width: 65px;
     }
 
     .step-circle {
@@ -1459,67 +1536,38 @@ body {
         font-size: 0.75rem;
     }
 
-    /* Modal resultado */
-    .resultado-content {
-        padding: 30px 20px;
-    }
-
-    .resultado-icon {
-        font-size: 60px;
-    }
-
-    .resultado-titulo {
-        font-size: 1.6rem;
-    }
-
-    .resultado-puntuacion {
-        font-size: 1rem;
-    }
-
-    /* Admin */
     .admin-header {
         flex-direction: column;
         align-items: flex-start;
+        gap: 15px;
     }
 
     .admin-header h1 {
         font-size: 1.6rem;
     }
 
-    .admin-menu {
-        flex-wrap: nowrap;
-    }
-
-    .admin-menu a {
-        font-size: 0.9rem;
-        padding: 10px;
-        white-space: nowrap;
-    }
-
-    /* Tablas */
     .tabla {
         font-size: 0.85rem;
     }
 
     .tabla th, .tabla td {
-        padding: 10px;
+        padding: 10px 8px;
     }
 
-    /* Estadísticas */
     .stats-grid {
         grid-template-columns: 1fr;
+        gap: 15px;
     }
 
-    /* Modal */
     .modal-content {
-        padding: 20px;
+        padding: 20px 15px;
+        width: 95%;
     }
 
     .modal-header h2 {
         font-size: 1.3rem;
     }
 
-    /* Footer */
     .footer {
         padding: 15px 10px;
     }
@@ -1535,12 +1583,10 @@ body {
 
 /* ===== RESPONSIVE - MÓVILES PEQUEÑOS (MÁXIMO 480PX) ===== */
 @media (max-width: 480px) {
-    /* Contenedor principal */
     .container {
         padding: 10px;
     }
 
-    /* Banderines */
     .banderines {
         height: 60px;
     }
@@ -1552,13 +1598,6 @@ body {
         margin: 0 3px;
     }
 
-    .banderin::before {
-        width: 28px;
-        left: -14px;
-        height: 4px;
-    }
-
-    /* Navegación */
     .navbar-brand img {
         height: 35px;
     }
@@ -1568,23 +1607,10 @@ body {
     }
 
     .navbar-menu {
-        flex-direction: column;
         width: 100%;
-        gap: 5px;
+        max-width: 300px;
     }
 
-    .navbar-menu a {
-        width: 100%;
-        text-align: center;
-    }
-
-    .user-info {
-        width: 100%;
-        text-align: center;
-        font-size: 0.85rem;
-    }
-
-    /* Curso header */
     .curso-header {
         padding: 60px 10px 20px;
     }
@@ -1597,26 +1623,11 @@ body {
         font-size: 0.9rem;
     }
 
-    /* Tarjetas */
     .card {
-        padding: 15px;
+        padding: 15px 12px;
         border-width: 3px;
     }
 
-    .card::before {
-        height: 6px;
-    }
-
-    /* Temática texto */
-    .tematica-texto {
-        font-size: 0.95rem;
-    }
-
-    .tematica-texto h3 {
-        font-size: 1.3rem;
-    }
-
-    /* Auth */
     .auth-card {
         padding: 20px 15px;
     }
@@ -1629,41 +1640,21 @@ body {
         flex-direction: column;
     }
 
-    .auth-tab {
-        width: 100%;
-    }
-
-    /* Logos */
     .logo-auth {
         height: 40px;
     }
 
-    /* Botones */
     .btn {
         padding: 10px 16px;
         font-size: 0.9rem;
-        gap: 6px;
     }
 
-    .btn-outline {
-        padding: 6px 12px;
-    }
-
-    /* Evaluación */
     .evaluacion-header h2 {
         font-size: 1.3rem;
     }
 
     .pregunta-card {
-        padding: 15px;
-    }
-
-    .pregunta-numero {
-        font-size: 0.95rem;
-    }
-
-    .pregunta-texto {
-        font-size: 0.95rem;
+        padding: 15px 12px;
     }
 
     .opcion {
@@ -1675,27 +1666,16 @@ body {
         height: 20px;
     }
 
-    .opcion.selected .opcion-radio::after {
-        width: 10px;
-        height: 10px;
-    }
-
     .opcion-texto {
         font-size: 0.85rem;
     }
 
-    /* Progreso */
     .progreso-bar {
         height: 16px;
     }
 
-    .progreso-steps {
-        flex-wrap: wrap;
-        justify-content: center;
-    }
-
     .step {
-        min-width: 60px;
+        min-width: 55px;
     }
 
     .step-circle {
@@ -1709,7 +1689,6 @@ body {
         font-size: 0.7rem;
     }
 
-    /* Certificado */
     .certificado {
         padding: 20px 10px;
         border-width: 6px;
@@ -1723,41 +1702,21 @@ body {
         font-size: 1.2rem;
     }
 
-    .certificado-subtitulo {
-        font-size: 0.75rem;
-        letter-spacing: 0.5px;
-    }
-
     .certificado-nombre {
         font-size: 1.2rem;
     }
 
-    .certificado-cedula {
-        font-size: 0.8rem;
-    }
-
+    .certificado-cedula,
     .certificado-curso {
         font-size: 0.85rem;
     }
 
-    .certificado-firma-linea {
-        width: 120px;
-    }
-
-    .certificado-firma-nombre {
-        font-size: 0.8rem;
-    }
-
     .certificado::before, .certificado::after {
-        width: 40px;
-        height: 40px;
+        width: 30px;
+        height: 30px;
         border-width: 2px;
     }
 
-    .certificado::before { top: 8px; left: 8px; }
-    .certificado::after { bottom: 8px; right: 8px; }
-
-    /* Modal */
     .resultado-content {
         padding: 25px 15px;
     }
@@ -1770,53 +1729,29 @@ body {
         font-size: 1.4rem;
     }
 
-    .resultado-puntuacion {
-        font-size: 0.95rem;
-    }
-
-    .modal-content {
-        padding: 15px;
-    }
-
-    /* Admin */
     .admin-content {
-        padding: 15px;
+        padding: 15px 10px;
     }
 
     .admin-header h1 {
         font-size: 1.4rem;
     }
 
-    .admin-menu a {
-        font-size: 0.8rem;
-        padding: 8px;
-    }
-
-    /* Estadísticas */
     .stat-card {
-        padding: 18px;
+        padding: 18px 15px;
     }
 
     .stat-numero {
         font-size: 1.8rem;
     }
 
-    .stat-label {
-        font-size: 0.9rem;
-    }
-
-    /* Tablas */
     .tabla {
         font-size: 0.75rem;
+        min-width: 500px;
     }
 
     .tabla th, .tabla td {
-        padding: 8px;
-    }
-
-    .badge {
-        font-size: 0.75rem;
-        padding: 3px 8px;
+        padding: 8px 6px;
     }
 
     .btn-icon {
@@ -1824,19 +1759,16 @@ body {
         height: 32px;
     }
 
-    /* Paginación */
     .paginacion button {
         padding: 8px 12px;
         font-size: 0.9rem;
     }
 
-    /* Alertas */
     .alert {
         padding: 12px 15px;
         font-size: 0.9rem;
     }
 
-    /* Footer */
     .footer {
         padding: 12px 8px;
     }
@@ -1860,10 +1792,6 @@ body {
         font-size: 1.5rem;
     }
 
-    .curso-header h2 {
-        font-size: 1rem;
-    }
-
     .auth-container {
         padding: 20px;
     }
@@ -1876,15 +1804,13 @@ body {
         max-height: 85vh;
     }
 
-    .progreso-steps {
-        flex-direction: row;
-        overflow-x: auto;
+    .navbar-menu {
+        padding-top: 60px;
     }
 }
 
 /* ===== MEJORAS DE ACCESIBILIDAD Y TOUCH ===== */
 @media (hover: none) and (pointer: coarse) {
-    /* Aumentar áreas táctiles en dispositivos touch */
     .btn {
         min-height: 44px;
     }
@@ -1908,7 +1834,11 @@ body {
         min-height: 44px;
     }
 
-    /* Eliminar efectos hover en touch devices */
+    .menu-toggle {
+        min-width: 44px;
+        min-height: 44px;
+    }
+
     .btn:hover,
     .btn-primary:hover,
     .btn-secondary:hover {
@@ -1933,6 +1863,7 @@ body {
     #alertContainer, 
     .footer, 
     .banderines,
+    .menu-toggle,
     .card:first-of-type { 
         display: none !important; 
     }
