@@ -3,6 +3,20 @@ const Sesion = require('../models/Sesion');
 const Certificado = require('../models/Certificado');
 const bcrypt = require('bcryptjs');
 
+// Helper para calcular edad
+const calcularEdad = (fechaNacimiento) => {
+    const hoy = new Date();
+    const fechaNac = new Date(fechaNacimiento);
+    let edad = hoy.getFullYear() - fechaNac.getFullYear();
+    const mes = hoy.getMonth() - fechaNac.getMonth();
+    
+    if (mes < 0 || (mes === 0 && hoy.getDate() < fechaNac.getDate())) {
+        edad--;
+    }
+    
+    return edad;
+};
+
 // @desc    Obtener todos los usuarios
 // @route   GET /api/usuarios
 // @access  Private/Admin
@@ -78,7 +92,7 @@ exports.obtenerUsuario = async (req, res) => {
 // @access  Private/Admin
 exports.crearUsuario = async (req, res) => {
     try {
-        const { cedula, nombre, correo, telefono, contraseña, tipoUsuario, genero, otroGenero, edad, profesion, cargo } = req.body;
+        const { cedula, nombre, correo, telefono, contraseña, tipoUsuario, genero, otroGenero, fechaNacimiento, profesion, cargo } = req.body;
 
         const usuarioExistente = await Usuario.findOne({ 
             $or: [{ cedula }, { correo }] 
@@ -92,10 +106,19 @@ exports.crearUsuario = async (req, res) => {
         }
 
         // Validar campos adicionales
-        if (!genero || !edad || !profesion || !cargo) {
+        if (!genero || !fechaNacimiento || !profesion || !cargo) {
             return res.status(400).json({
                 success: false,
                 mensaje: 'Todos los campos son requeridos'
+            });
+        }
+
+        // Validar edad mínima
+        const edad = calcularEdad(fechaNacimiento);
+        if (edad < 18) {
+            return res.status(400).json({
+                success: false,
+                mensaje: 'El usuario debe ser mayor de 18 años'
             });
         }
 
@@ -115,7 +138,7 @@ exports.crearUsuario = async (req, res) => {
             contraseña,
             genero,
             otroGenero: genero === 'Otro' ? otroGenero : '',
-            edad: parseInt(edad),
+            fechaNacimiento: new Date(fechaNacimiento),
             profesion,
             cargo,
             tipoUsuario: tipoUsuario || 'Asesor'
@@ -145,7 +168,7 @@ exports.crearUsuario = async (req, res) => {
 // @access  Private/Admin
 exports.actualizarUsuario = async (req, res) => {
     try {
-        const { nombre, correo, telefono, tipoUsuario, estado, genero, otroGenero, edad, profesion, cargo } = req.body;
+        const { nombre, correo, telefono, tipoUsuario, estado, genero, otroGenero, fechaNacimiento, profesion, cargo } = req.body;
 
         let usuario = await Usuario.findById(req.params.id);
 
@@ -164,7 +187,7 @@ exports.actualizarUsuario = async (req, res) => {
                     success: false,
                     mensaje: 'El correo ya está en uso'
                 });
-        }
+            }
         }
 
         // Si el género es "Otro", validar que se especifique cuál
@@ -175,13 +198,24 @@ exports.actualizarUsuario = async (req, res) => {
             });
         }
 
+        // Validar edad si se proporciona fechaNacimiento
+        if (fechaNacimiento) {
+            const edad = calcularEdad(fechaNacimiento);
+            if (edad < 18) {
+                return res.status(400).json({
+                    success: false,
+                    mensaje: 'El usuario debe ser mayor de 18 años'
+                });
+            }
+        }
+
         const updateData = { nombre, correo, telefono, tipoUsuario, estado };
         
         if (genero) {
             updateData.genero = genero;
             updateData.otroGenero = genero === 'Otro' ? otroGenero : '';
         }
-        if (edad) updateData.edad = parseInt(edad);
+        if (fechaNacimiento) updateData.fechaNacimiento = new Date(fechaNacimiento);
         if (profesion) updateData.profesion = profesion;
         if (cargo) updateData.cargo = cargo;
 
@@ -369,21 +403,30 @@ exports.obtenerEstadisticasDemograficas = async (req, res) => {
             { $sort: { total: -1 } }
         ]);
 
-        // Estadísticas por rango de edad
-        const porEdad = await Usuario.aggregate([
-            { $match: { tipoUsuario: 'Asesor' } },
-            {
-                $bucket: {
-                    groupBy: '$edad',
-                    boundaries: [18, 25, 35, 45, 55, 65, 100],
-                    default: 'Otros',
-                    output: {
-                        total: { $sum: 1 },
-                        usuarios: { $push: { nombre: '$nombre', edad: '$edad' } }
-                    }
-                }
+        // Estadísticas por rango de edad (calculado desde fechaNacimiento)
+        const usuarios = await Usuario.find({ tipoUsuario: 'Asesor' }).select('fechaNacimiento');
+        const porEdad = {};
+        
+        usuarios.forEach(u => {
+            if (u.fechaNacimiento) {
+                const edad = calcularEdad(u.fechaNacimiento);
+                let rango;
+                
+                if (edad < 25) rango = '18-24';
+                else if (edad < 35) rango = '25-34';
+                else if (edad < 45) rango = '35-44';
+                else if (edad < 55) rango = '45-54';
+                else if (edad < 65) rango = '55-64';
+                else rango = '65+';
+                
+                porEdad[rango] = (porEdad[rango] || 0) + 1;
             }
-        ]);
+        });
+        
+        const porEdadArray = Object.entries(porEdad).map(([rango, total]) => ({
+            _id: rango,
+            total
+        }));
 
         // Estadísticas por profesión
         const porProfesion = await Usuario.aggregate([
@@ -415,7 +458,7 @@ exports.obtenerEstadisticasDemograficas = async (req, res) => {
             success: true,
             estadisticas: {
                 porGenero,
-                porEdad,
+                porEdad: porEdadArray,
                 porProfesion,
                 porCargo
             }

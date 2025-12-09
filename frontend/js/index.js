@@ -15,6 +15,26 @@ const saveToStorage = (key, value) => localStorage.setItem(key, JSON.stringify(v
 const getFromStorage = (key) => JSON.parse(localStorage.getItem(key));
 const removeFromStorage = (key) => localStorage.removeItem(key);
 
+// Calcular edad desde fecha de nacimiento
+const calcularEdad = (fechaNacimiento) => {
+    const hoy = new Date();
+    const fechaNac = new Date(fechaNacimiento);
+    let edad = hoy.getFullYear() - fechaNac.getFullYear();
+    const mes = hoy.getMonth() - fechaNac.getMonth();
+    
+    if (mes < 0 || (mes === 0 && hoy.getDate() < fechaNac.getDate())) {
+        edad--;
+    }
+    
+    return edad;
+};
+
+// Validar fecha de nacimiento
+const validarFechaNacimiento = (fecha) => {
+    const edad = calcularEdad(fecha);
+    return edad >= 18 && edad <= 100;
+};
+
 // ===== VERIFICAR SESIÓN AL CARGAR =====
 document.addEventListener('DOMContentLoaded', () => {
     const token = getFromStorage('token');
@@ -27,6 +47,7 @@ document.addEventListener('DOMContentLoaded', () => {
     initTabs();
     initForms();
     initGeneroSelector();
+    initFechaNacimientoValidation();
 });
 
 // ===== REDIRECCIÓN BASADA EN ROL =====
@@ -52,6 +73,30 @@ const initGeneroSelector = () => {
             otroGeneroContainer.classList.add('hidden');
             otroGeneroInput.required = false;
             otroGeneroInput.value = '';
+        }
+    });
+};
+
+// ===== VALIDACIÓN DE FECHA DE NACIMIENTO =====
+const initFechaNacimientoValidation = () => {
+    const fechaInput = document.getElementById('regFechaNacimiento');
+    
+    // Establecer fecha máxima (hace 18 años)
+    const hoy = new Date();
+    const hace18Years = new Date(hoy.getFullYear() - 18, hoy.getMonth(), hoy.getDate());
+    fechaInput.max = hace18Years.toISOString().split('T')[0];
+    
+    // Establecer fecha mínima (hace 100 años)
+    const hace100Years = new Date(hoy.getFullYear() - 100, hoy.getMonth(), hoy.getDate());
+    fechaInput.min = hace100Years.toISOString().split('T')[0];
+    
+    // Validar en tiempo real
+    fechaInput.addEventListener('change', () => {
+        if (fechaInput.value) {
+            if (!validarFechaNacimiento(fechaInput.value)) {
+                showAlert('Debes tener entre 18 y 100 años', 'error');
+                fechaInput.value = '';
+            }
         }
     });
 };
@@ -144,7 +189,7 @@ const initForms = () => {
         const profesion = window.getFormValue ? window.getFormValue('regProfesion', 'regOtraProfesion') : document.getElementById('regProfesion').value;
         const cargo = window.getFormValue ? window.getFormValue('regCargo', 'regOtroCargo') : document.getElementById('regCargo').value;
         
-        const edad = document.getElementById('regEdad').value;
+        const fechaNacimiento = document.getElementById('regFechaNacimiento').value;
         const contraseña = document.getElementById('regPassword').value;
         const confirmar = document.getElementById('regPasswordConfirm').value;
 
@@ -159,6 +204,16 @@ const initForms = () => {
             return;
         }
 
+        if (!fechaNacimiento) {
+            showAlert('Por favor ingresa tu fecha de nacimiento');
+            return;
+        }
+
+        if (!validarFechaNacimiento(fechaNacimiento)) {
+            showAlert('Debes tener entre 18 y 100 años');
+            return;
+        }
+
         if (!profesion || profesion === '') {
             showAlert('Por favor selecciona tu profesión');
             return;
@@ -169,32 +224,36 @@ const initForms = () => {
             return;
         }
 
-        if (parseInt(edad) < 18 || parseInt(edad) > 100) {
-            showAlert('La edad debe estar entre 18 y 100 años');
-            return;
-        }
-
         showLoading();
+
+        // 🔍 DEBUGGING: Ver qué datos se envían
+        const datosRegistro = { 
+            cedula, 
+            nombre, 
+            correo, 
+            telefono, 
+            genero,
+            otroGenero: '', // Ya está incluido en genero si era "Otro"
+            fechaNacimiento,
+            profesion,
+            cargo,
+            contraseña 
+        };
+        
+        console.log('🔍 DEBUG - Datos que se enviarán:', datosRegistro);
+        console.log('🔍 DEBUG - Fecha de nacimiento:', fechaNacimiento, typeof fechaNacimiento);
 
         try {
             const response = await fetch(`${API_URL}/auth/registro`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ 
-                    cedula, 
-                    nombre, 
-                    correo, 
-                    telefono, 
-                    genero,
-                    otroGenero: '', // Ya está incluido en genero si era "Otro"
-                    edad: parseInt(edad),
-                    profesion,
-                    cargo,
-                    contraseña 
-                })
+                body: JSON.stringify(datosRegistro)
             });
 
             const data = await response.json();
+            
+            console.log('📥 DEBUG - Respuesta del servidor:', data);
+            console.log('📥 DEBUG - Status:', response.status);
 
             if (data.success) {
                 saveToStorage('token', data.token);
@@ -204,10 +263,11 @@ const initForms = () => {
                 setTimeout(() => redirectBasedOnRole(data.usuario.tipoUsuario), 1000);
             } else {
                 showAlert(data.mensaje);
+                console.error('❌ Error del servidor:', data);
             }
         } catch (error) {
             showAlert('Error de conexión. Intenta de nuevo.');
-            console.error(error);
+            console.error('❌ Error completo:', error);
         } finally {
             hideLoading();
         }

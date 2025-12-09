@@ -2,6 +2,28 @@
 let usuariosPagina = 1;
 let usuariosActuales = [];
 
+// Calcular edad desde fecha de nacimiento
+const calcularEdad = (fechaNacimiento) => {
+    if (!fechaNacimiento) return null;
+    const hoy = new Date();
+    const fechaNac = new Date(fechaNacimiento);
+    let edad = hoy.getFullYear() - fechaNac.getFullYear();
+    const mes = hoy.getMonth() - fechaNac.getMonth();
+    
+    if (mes < 0 || (mes === 0 && hoy.getDate() < fechaNac.getDate())) {
+        edad--;
+    }
+    
+    return edad;
+};
+
+// Formatear fecha para input date
+const formatearFechaParaInput = (fecha) => {
+    if (!fecha) return '';
+    const d = new Date(fecha);
+    return d.toISOString().split('T')[0];
+};
+
 document.addEventListener('DOMContentLoaded', async () => {
     // Verificar admin
     if (!auth.checkAdmin()) return;
@@ -19,7 +41,26 @@ document.addEventListener('DOMContentLoaded', async () => {
     
     // Configurar selector de género en modal
     initGeneroModal();
+    
+    // Configurar validación de fecha de nacimiento
+    initFechaNacimientoValidation();
 });
+
+// ===== VALIDACIÓN DE FECHA DE NACIMIENTO =====
+function initFechaNacimientoValidation() {
+    const fechaInput = document.getElementById('usuarioFechaNacimiento');
+    
+    if (fechaInput) {
+        // Establecer fecha máxima (hace 18 años)
+        const hoy = new Date();
+        const hace18Years = new Date(hoy.getFullYear() - 18, hoy.getMonth(), hoy.getDate());
+        fechaInput.max = hace18Years.toISOString().split('T')[0];
+        
+        // Establecer fecha mínima (hace 100 años)
+        const hace100Years = new Date(hoy.getFullYear() - 100, hoy.getMonth(), hoy.getDate());
+        fechaInput.min = hace100Years.toISOString().split('T')[0];
+    }
+}
 
 // ===== SELECTOR DE GÉNERO EN MODAL =====
 function initGeneroModal() {
@@ -27,16 +68,18 @@ function initGeneroModal() {
     const otroGeneroContainer = document.getElementById('campoOtroGenero');
     const otroGeneroInput = document.getElementById('usuarioOtroGenero');
 
-    generoSelect.addEventListener('change', () => {
-        if (generoSelect.value === 'Otro') {
-            otroGeneroContainer.classList.remove('hidden');
-            otroGeneroInput.required = true;
-        } else {
-            otroGeneroContainer.classList.add('hidden');
-            otroGeneroInput.required = false;
-            otroGeneroInput.value = '';
-        }
-    });
+    if (generoSelect && otroGeneroContainer && otroGeneroInput) {
+        generoSelect.addEventListener('change', () => {
+            if (generoSelect.value === 'Otro') {
+                otroGeneroContainer.classList.remove('hidden');
+                otroGeneroInput.required = true;
+            } else {
+                otroGeneroContainer.classList.add('hidden');
+                otroGeneroInput.required = false;
+                otroGeneroInput.value = '';
+            }
+        });
+    }
 }
 
 // ===== NAVEGACIÓN =====
@@ -122,7 +165,6 @@ function renderizarEstadisticasGenero(datos) {
         const porcentaje = ((item.total / total) * 100).toFixed(1);
         let generoDisplay = item._id;
         
-        // Si es "Otro", mostrar los géneros específicos
         if (item._id === 'Otro' && item.otrosGeneros && item.otrosGeneros.length > 0) {
             const otrosUnicos = [...new Set(item.otrosGeneros.filter(g => g))];
             if (otrosUnicos.length > 0) {
@@ -151,23 +193,17 @@ function renderizarEstadisticasEdad(datos) {
     
     const total = datos.reduce((sum, item) => sum + item.total, 0);
     
-    const rangos = {
-        18: '18-24 años',
-        25: '25-34 años',
-        35: '35-44 años',
-        45: '45-54 años',
-        55: '55-64 años',
-        65: '65+ años',
-        'Otros': 'Otros'
-    };
+    const rangosOrden = ['18-24', '25-34', '35-44', '45-54', '55-64', '65+'];
+    const datosOrdenados = rangosOrden
+        .map(rango => datos.find(d => d._id === rango))
+        .filter(d => d);
     
-    datos.forEach(item => {
+    datosOrdenados.forEach(item => {
         const porcentaje = ((item.total / total) * 100).toFixed(1);
-        const rangoNombre = rangos[item._id] || item._id;
         
         tbody.innerHTML += `
             <tr>
-                <td>${rangoNombre}</td>
+                <td>${item._id} años</td>
                 <td>${item.total}</td>
                 <td>${porcentaje}%</td>
             </tr>
@@ -262,13 +298,16 @@ function renderizarUsuarios(usuarios) {
         const generoDisplay = u.genero === 'Otro' && u.otroGenero ? 
             `${u.genero} (${u.otroGenero})` : u.genero;
         
+        // Calcular edad desde fechaNacimiento
+        const edad = u.fechaNacimiento ? calcularEdad(u.fechaNacimiento) : (u.edad || 'N/A');
+        
         tbody.innerHTML += `
             <tr>
                 <td>${u.nombre}</td>
                 <td>${u.cedula}</td>
                 <td>${u.correo}</td>
                 <td>${generoDisplay || 'N/A'}</td>
-                <td>${u.edad || 'N/A'}</td>
+                <td>${edad}</td>
                 <td>${u.cargo || 'N/A'}</td>
                 <td><span class="badge badge-${u.tipoUsuario.toLowerCase()}">${u.tipoUsuario}</span></td>
                 <td><span class="badge badge-${u.estado.toLowerCase()}">${u.estado}</span></td>
@@ -304,6 +343,10 @@ function abrirModalUsuario() {
     document.getElementById('campoPassword').style.display = 'block';
     document.getElementById('usuarioPassword').required = true;
     document.getElementById('campoOtroGenero').classList.add('hidden');
+    
+    // Re-inicializar validación de fecha
+    initFechaNacimientoValidation();
+    
     ui.showModal('modalUsuario');
 }
 
@@ -317,20 +360,22 @@ async function editarUsuario(id) {
     document.getElementById('usuarioNombre').value = usuario.nombre;
     document.getElementById('usuarioCorreo').value = usuario.correo;
     document.getElementById('usuarioTelefono').value = usuario.telefono;
-    document.getElementById('usuarioEdad').value = usuario.edad || '';
     document.getElementById('usuarioTipo').value = usuario.tipoUsuario;
     document.getElementById('usuarioEstado').value = usuario.estado;
+    
+    // Cargar fecha de nacimiento
+    if (usuario.fechaNacimiento) {
+        document.getElementById('usuarioFechaNacimiento').value = formatearFechaParaInput(usuario.fechaNacimiento);
+    }
     
     // Cargar género
     const generoSelect = document.getElementById('usuarioGenero');
     if (generoSelect) {
-        // Si el género del usuario está en la lista, seleccionarlo
         const opcionesGenero = Array.from(generoSelect.options).map(opt => opt.value);
         
         if (opcionesGenero.includes(usuario.genero)) {
             generoSelect.value = usuario.genero;
         } else if (usuario.otroGenero) {
-            // Si tiene otroGenero, seleccionar "Otro" y mostrar el input
             generoSelect.value = 'Otro';
             const otroGeneroContainer = document.getElementById('campoOtroGenero');
             const otroGeneroInput = document.getElementById('usuarioOtroGenero');
@@ -379,6 +424,10 @@ async function editarUsuario(id) {
     
     document.getElementById('campoPassword').style.display = 'none';
     document.getElementById('usuarioPassword').required = false;
+    
+    // Re-inicializar validación de fecha
+    initFechaNacimientoValidation();
+    
     ui.showModal('modalUsuario');
 }
 
@@ -399,7 +448,7 @@ async function toggleEstadoUsuario(id) {
     }
 }
 
-// ===== PREGUNTAS =====
+// ===== PREGUNTAS (continúa igual...) =====
 async function cargarPreguntas() {
     ui.showLoading();
     try {
@@ -511,14 +560,25 @@ function initFormularios() {
         
         const id = document.getElementById('usuarioId').value;
         
-        // Usar la función helper para obtener valores correctos
         const genero = window.getFormValue ? window.getFormValue('usuarioGenero', 'usuarioOtroGenero') : document.getElementById('usuarioGenero').value;
         const profesion = window.getFormValue ? window.getFormValue('usuarioProfesion', 'usuarioOtraProfesion') : document.getElementById('usuarioProfesion').value;
         const cargo = window.getFormValue ? window.getFormValue('usuarioCargo', 'usuarioOtroCargo') : document.getElementById('usuarioCargo').value;
+        const fechaNacimiento = document.getElementById('usuarioFechaNacimiento').value;
         
-        // Validar "Otro" género
+        // Validaciones
         if (!genero || genero === '') {
             ui.showAlert('Por favor selecciona el género');
+            return;
+        }
+        
+        if (!fechaNacimiento) {
+            ui.showAlert('Por favor ingresa la fecha de nacimiento');
+            return;
+        }
+        
+        const edad = calcularEdad(fechaNacimiento);
+        if (edad < 18 || edad > 100) {
+            ui.showAlert('El usuario debe tener entre 18 y 100 años');
             return;
         }
         
@@ -538,8 +598,8 @@ function initFormularios() {
             correo: document.getElementById('usuarioCorreo').value,
             telefono: document.getElementById('usuarioTelefono').value,
             genero: genero,
-            otroGenero: '', // Ya está incluido en genero si era "Otro"
-            edad: parseInt(document.getElementById('usuarioEdad').value),
+            otroGenero: '',
+            fechaNacimiento: fechaNacimiento,
             profesion: profesion,
             cargo: cargo,
             tipoUsuario: document.getElementById('usuarioTipo').value,

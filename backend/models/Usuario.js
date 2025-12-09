@@ -27,19 +27,27 @@ const usuarioSchema = new mongoose.Schema({
     },
     genero: {
         type: String,
-        enum: ['Masculino', 'Femenino', 'Otro'],
-        required: [true, 'El género es requerido']
+        required: [true, 'El género es requerido'],
+        trim: true
     },
     otroGenero: {
         type: String,
         trim: true,
         default: ''
     },
-    edad: {
-        type: Number,
-        required: [true, 'La edad es requerida'],
-        min: 18,
-        max: 100
+    fechaNacimiento: {
+        type: Date,
+        required: [true, 'La fecha de nacimiento es requerida'],
+        validate: {
+            validator: function(fecha) {
+                // Validar que sea mayor de 18 años
+                const hoy = new Date();
+                const fechaNac = new Date(fecha);
+                const edad = Math.floor((hoy - fechaNac) / (365.25 * 24 * 60 * 60 * 1000));
+                return edad >= 18 && edad <= 100;
+            },
+            message: 'Debes tener entre 18 y 100 años'
+        }
     },
     profesion: {
         type: String,
@@ -76,6 +84,26 @@ const usuarioSchema = new mongoose.Schema({
 }, {
     timestamps: true
 });
+
+// Virtual para calcular la edad
+usuarioSchema.virtual('edad').get(function() {
+    if (!this.fechaNacimiento) return null;
+    
+    const hoy = new Date();
+    const fechaNac = new Date(this.fechaNacimiento);
+    let edad = hoy.getFullYear() - fechaNac.getFullYear();
+    const mes = hoy.getMonth() - fechaNac.getMonth();
+    
+    if (mes < 0 || (mes === 0 && hoy.getDate() < fechaNac.getDate())) {
+        edad--;
+    }
+    
+    return edad;
+});
+
+// Asegurar que los virtuals se incluyan en JSON
+usuarioSchema.set('toJSON', { virtuals: true });
+usuarioSchema.set('toObject', { virtuals: true });
 
 // Encriptar contraseña antes de guardar
 usuarioSchema.pre('save', async function(next) {

@@ -10,12 +10,55 @@ const generarToken = (id) => {
     });
 };
 
+// Helper para calcular edad
+const calcularEdad = (fechaNacimiento) => {
+    const hoy = new Date();
+    const fechaNac = new Date(fechaNacimiento);
+    let edad = hoy.getFullYear() - fechaNac.getFullYear();
+    const mes = hoy.getMonth() - fechaNac.getMonth();
+    
+    if (mes < 0 || (mes === 0 && hoy.getDate() < fechaNac.getDate())) {
+        edad--;
+    }
+    
+    return edad;
+};
+
 // @desc    Registrar usuario
 // @route   POST /api/auth/registro
 // @access  Public
 exports.registro = async (req, res) => {
     try {
-        const { cedula, nombre, correo, telefono, contraseña, genero, otroGenero, edad, profesion, cargo } = req.body;
+        // Log para debugging
+        console.log('📥 Datos recibidos en registro:', {
+            cedula: req.body.cedula ? '✓' : '✗',
+            nombre: req.body.nombre ? '✓' : '✗',
+            correo: req.body.correo ? '✓' : '✗',
+            telefono: req.body.telefono ? '✓' : '✗',
+            contraseña: req.body.contraseña ? '✓' : '✗',
+            genero: req.body.genero ? '✓' : '✗',
+            fechaNacimiento: req.body.fechaNacimiento ? '✓' : '✗',
+            profesion: req.body.profesion ? '✓' : '✗',
+            cargo: req.body.cargo ? '✓' : '✗'
+        });
+        
+        const { cedula, nombre, correo, telefono, contraseña, genero, otroGenero, fechaNacimiento, profesion, cargo } = req.body;
+
+        // Validar campos básicos primero
+        if (!cedula || !nombre || !correo || !telefono || !contraseña) {
+            return res.status(400).json({
+                success: false,
+                mensaje: 'Todos los campos básicos son obligatorios'
+            });
+        }
+
+        // Validar campos adicionales
+        if (!genero || !fechaNacimiento || !profesion || !cargo) {
+            return res.status(400).json({
+                success: false,
+                mensaje: 'Todos los campos son obligatorios'
+            });
+        }
 
         // Verificar si el usuario ya existe
         const usuarioExistente = await Usuario.findOne({ 
@@ -29,11 +72,12 @@ exports.registro = async (req, res) => {
             });
         }
 
-        // Validar campos adicionales
-        if (!genero || !edad || !profesion || !cargo) {
+        // Validar edad mínima
+        const edad = calcularEdad(fechaNacimiento);
+        if (edad < 18) {
             return res.status(400).json({
                 success: false,
-                mensaje: 'Todos los campos son requeridos'
+                mensaje: 'Debes ser mayor de 18 años'
             });
         }
 
@@ -54,7 +98,7 @@ exports.registro = async (req, res) => {
             contraseña,
             genero,
             otroGenero: genero === 'Otro' ? otroGenero : '',
-            edad: parseInt(edad),
+            fechaNacimiento: new Date(fechaNacimiento),
             profesion,
             cargo,
             tipoUsuario: 'Asesor'
@@ -76,10 +120,12 @@ exports.registro = async (req, res) => {
             }
         });
     } catch (error) {
+        console.error('❌ Error en registro:', error);
         res.status(500).json({
             success: false,
             mensaje: 'Error al registrar usuario',
-            error: error.message
+            error: error.message,
+            detalles: process.env.NODE_ENV === 'development' ? error.stack : undefined
         });
     }
 };
@@ -292,7 +338,8 @@ exports.obtenerUsuarioActual = async (req, res) => {
                 telefono: usuario.telefono,
                 genero: usuario.genero,
                 otroGenero: usuario.otroGenero,
-                edad: usuario.edad,
+                fechaNacimiento: usuario.fechaNacimiento,
+                edad: usuario.edad, // Virtual
                 profesion: usuario.profesion,
                 cargo: usuario.cargo,
                 tipoUsuario: usuario.tipoUsuario,
