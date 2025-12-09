@@ -138,11 +138,13 @@ const initForms = () => {
         const nombre = document.getElementById('regNombre').value;
         const correo = document.getElementById('regCorreo').value;
         const telefono = document.getElementById('regTelefono').value;
-        const genero = document.getElementById('regGenero').value;
-        const otroGenero = document.getElementById('regOtroGenero').value;
+        
+        // Usar la función helper para obtener valores correctos
+        const genero = window.getFormValue ? window.getFormValue('regGenero', 'regOtroGenero') : document.getElementById('regGenero').value;
+        const profesion = window.getFormValue ? window.getFormValue('regProfesion', 'regOtraProfesion') : document.getElementById('regProfesion').value;
+        const cargo = window.getFormValue ? window.getFormValue('regCargo', 'regOtroCargo') : document.getElementById('regCargo').value;
+        
         const edad = document.getElementById('regEdad').value;
-        const profesion = document.getElementById('regProfesion').value;
-        const cargo = document.getElementById('regCargo').value;
         const contraseña = document.getElementById('regPassword').value;
         const confirmar = document.getElementById('regPasswordConfirm').value;
 
@@ -152,13 +154,18 @@ const initForms = () => {
             return;
         }
 
-        if (!genero) {
+        if (!genero || genero === '') {
             showAlert('Por favor selecciona tu género');
             return;
         }
 
-        if (genero === 'Otro' && !otroGenero.trim()) {
-            showAlert('Por favor especifica tu género');
+        if (!profesion || profesion === '') {
+            showAlert('Por favor selecciona tu profesión');
+            return;
+        }
+
+        if (!cargo || cargo === '') {
+            showAlert('Por favor selecciona tu cargo');
             return;
         }
 
@@ -179,7 +186,7 @@ const initForms = () => {
                     correo, 
                     telefono, 
                     genero,
-                    otroGenero: genero === 'Otro' ? otroGenero : '',
+                    otroGenero: '', // Ya está incluido en genero si era "Otro"
                     edad: parseInt(edad),
                     profesion,
                     cargo,

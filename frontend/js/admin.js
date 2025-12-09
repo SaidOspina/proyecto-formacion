@@ -317,17 +317,64 @@ async function editarUsuario(id) {
     document.getElementById('usuarioNombre').value = usuario.nombre;
     document.getElementById('usuarioCorreo').value = usuario.correo;
     document.getElementById('usuarioTelefono').value = usuario.telefono;
-    document.getElementById('usuarioGenero').value = usuario.genero || '';
     document.getElementById('usuarioEdad').value = usuario.edad || '';
-    document.getElementById('usuarioProfesion').value = usuario.profesion || '';
-    document.getElementById('usuarioCargo').value = usuario.cargo || '';
     document.getElementById('usuarioTipo').value = usuario.tipoUsuario;
     document.getElementById('usuarioEstado').value = usuario.estado;
     
-    // Manejar "Otro" género
-    if (usuario.genero === 'Otro') {
-        document.getElementById('campoOtroGenero').classList.remove('hidden');
-        document.getElementById('usuarioOtroGenero').value = usuario.otroGenero || '';
+    // Cargar género
+    const generoSelect = document.getElementById('usuarioGenero');
+    if (generoSelect) {
+        // Si el género del usuario está en la lista, seleccionarlo
+        const opcionesGenero = Array.from(generoSelect.options).map(opt => opt.value);
+        
+        if (opcionesGenero.includes(usuario.genero)) {
+            generoSelect.value = usuario.genero;
+        } else if (usuario.otroGenero) {
+            // Si tiene otroGenero, seleccionar "Otro" y mostrar el input
+            generoSelect.value = 'Otro';
+            const otroGeneroContainer = document.getElementById('campoOtroGenero');
+            const otroGeneroInput = document.getElementById('usuarioOtroGenero');
+            if (otroGeneroContainer && otroGeneroInput) {
+                otroGeneroContainer.classList.remove('hidden');
+                otroGeneroInput.value = usuario.otroGenero;
+            }
+        }
+    }
+    
+    // Cargar profesión
+    const profesionSelect = document.getElementById('usuarioProfesion');
+    if (profesionSelect) {
+        const opcionesProfesion = Array.from(profesionSelect.options).map(opt => opt.value);
+        
+        if (opcionesProfesion.includes(usuario.profesion)) {
+            profesionSelect.value = usuario.profesion;
+        } else if (usuario.profesion) {
+            profesionSelect.value = 'Otra';
+            const otraInput = document.getElementById('usuarioOtraProfesion');
+            if (otraInput) {
+                const container = otraInput.closest('.form-group');
+                if (container) container.classList.remove('hidden');
+                otraInput.value = usuario.profesion;
+            }
+        }
+    }
+    
+    // Cargar cargo
+    const cargoSelect = document.getElementById('usuarioCargo');
+    if (cargoSelect) {
+        const opcionesCargo = Array.from(cargoSelect.options).map(opt => opt.value);
+        
+        if (opcionesCargo.includes(usuario.cargo)) {
+            cargoSelect.value = usuario.cargo;
+        } else if (usuario.cargo) {
+            cargoSelect.value = 'Otro';
+            const otroInput = document.getElementById('usuarioOtroCargo');
+            if (otroInput) {
+                const container = otroInput.closest('.form-group');
+                if (container) container.classList.remove('hidden');
+                otroInput.value = usuario.cargo;
+            }
+        }
     }
     
     document.getElementById('campoPassword').style.display = 'none';
@@ -463,12 +510,25 @@ function initFormularios() {
         e.preventDefault();
         
         const id = document.getElementById('usuarioId').value;
-        const genero = document.getElementById('usuarioGenero').value;
-        const otroGenero = document.getElementById('usuarioOtroGenero').value;
+        
+        // Usar la función helper para obtener valores correctos
+        const genero = window.getFormValue ? window.getFormValue('usuarioGenero', 'usuarioOtroGenero') : document.getElementById('usuarioGenero').value;
+        const profesion = window.getFormValue ? window.getFormValue('usuarioProfesion', 'usuarioOtraProfesion') : document.getElementById('usuarioProfesion').value;
+        const cargo = window.getFormValue ? window.getFormValue('usuarioCargo', 'usuarioOtroCargo') : document.getElementById('usuarioCargo').value;
         
         // Validar "Otro" género
-        if (genero === 'Otro' && !otroGenero.trim()) {
-            ui.showAlert('Por favor especifica el género');
+        if (!genero || genero === '') {
+            ui.showAlert('Por favor selecciona el género');
+            return;
+        }
+        
+        if (!profesion || profesion === '') {
+            ui.showAlert('Por favor selecciona la profesión');
+            return;
+        }
+        
+        if (!cargo || cargo === '') {
+            ui.showAlert('Por favor selecciona el cargo');
             return;
         }
         
@@ -478,10 +538,10 @@ function initFormularios() {
             correo: document.getElementById('usuarioCorreo').value,
             telefono: document.getElementById('usuarioTelefono').value,
             genero: genero,
-            otroGenero: genero === 'Otro' ? otroGenero : '',
+            otroGenero: '', // Ya está incluido en genero si era "Otro"
             edad: parseInt(document.getElementById('usuarioEdad').value),
-            profesion: document.getElementById('usuarioProfesion').value,
-            cargo: document.getElementById('usuarioCargo').value,
+            profesion: profesion,
+            cargo: cargo,
             tipoUsuario: document.getElementById('usuarioTipo').value,
             estado: document.getElementById('usuarioEstado').value
         };

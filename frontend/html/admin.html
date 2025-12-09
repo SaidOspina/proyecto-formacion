@@ -268,31 +268,32 @@
             </div>
             <form id="formUsuario">
                 <input type="hidden" id="usuarioId">
+                
                 <div class="form-group">
                     <label>Cédula</label>
                     <input type="text" id="usuarioCedula" class="form-control" required>
                 </div>
+                
                 <div class="form-group">
                     <label>Nombre completo</label>
                     <input type="text" id="usuarioNombre" class="form-control" required>
                 </div>
+                
                 <div class="form-group">
                     <label>Correo</label>
                     <input type="email" id="usuarioCorreo" class="form-control" required>
                 </div>
+                
                 <div class="form-group">
                     <label>Teléfono</label>
                     <input type="tel" id="usuarioTelefono" class="form-control" required>
                 </div>
                 
-                <!-- Nuevos campos demográficos -->
+                <!-- Género -->
                 <div class="form-group">
                     <label>Género</label>
                     <select id="usuarioGenero" class="form-control" required>
-                        <option value="">Seleccionar</option>
-                        <option value="Masculino">Masculino</option>
-                        <option value="Femenino">Femenino</option>
-                        <option value="Otro">Otro</option>
+                        <!-- Opciones se agregan dinámicamente -->
                     </select>
                 </div>
                 
@@ -306,20 +307,29 @@
                     <input type="number" id="usuarioEdad" class="form-control" required min="18" max="100">
                 </div>
                 
+                <!-- Profesión -->
                 <div class="form-group">
                     <label>Profesión</label>
-                    <input type="text" id="usuarioProfesion" class="form-control" required>
+                    <select id="usuarioProfesion" class="form-control" required>
+                        <!-- Opciones se agregan dinámicamente -->
+                    </select>
                 </div>
+                <!-- Input para "Otra" se agrega dinámicamente -->
                 
+                <!-- Cargo -->
                 <div class="form-group">
                     <label>Cargo</label>
-                    <input type="text" id="usuarioCargo" class="form-control" required>
+                    <select id="usuarioCargo" class="form-control" required>
+                        <!-- Opciones se agregan dinámicamente -->
+                    </select>
                 </div>
+                <!-- Input para "Otro" se agrega dinámicamente -->
                 
                 <div class="form-group" id="campoPassword">
                     <label>Contraseña</label>
                     <input type="password" id="usuarioPassword" class="form-control" minlength="6">
                 </div>
+                
                 <div class="form-group">
                     <label>Tipo de Usuario</label>
                     <select id="usuarioTipo" class="form-control">
@@ -327,6 +337,7 @@
                         <option value="Administrador">Administrador</option>
                     </select>
                 </div>
+                
                 <div class="form-group">
                     <label>Estado</label>
                     <select id="usuarioEstado" class="form-control">
@@ -334,10 +345,12 @@
                         <option value="Inactivo">Inactivo</option>
                     </select>
                 </div>
+                
                 <button type="submit" class="btn btn-primary btn-block">Guardar</button>
             </form>
         </div>
     </div>
+
 
     <!-- Modal Pregunta -->
     <div class="modal" id="modalPregunta">
@@ -393,5 +406,6 @@
     <script src="../js/common.js"></script>
     <script src="../js/admin.js"></script>
     <script src="../js/mobile-menu.js"></script>
+    <script src="../js/form-selectors.js"></script>
 </body>
 </html>

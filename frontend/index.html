@@ -69,30 +69,31 @@
                     <label for="regCedula">🪪 Cédula *</label>
                     <input type="text" id="regCedula" class="form-control" placeholder="Tu número de cédula" required>
                 </div>
+                
                 <div class="form-group">
                     <label for="regNombre">👤 Nombre completo *</label>
                     <input type="text" id="regNombre" class="form-control" placeholder="Nombre y Apellido" required>
                 </div>
+                
                 <div class="form-group">
                     <label for="regCorreo">📧 Correo electrónico *</label>
                     <input type="email" id="regCorreo" class="form-control" placeholder="tucorreo@ejemplo.com" required>
                 </div>
+                
                 <div class="form-group">
                     <label for="regTelefono">📱 Teléfono *</label>
                     <input type="tel" id="regTelefono" class="form-control" placeholder="Tu número de teléfono" required>
                 </div>
                 
-                <!-- Nuevos campos demográficos -->
+                <!-- Género - Se convierte automáticamente en lista completa -->
                 <div class="form-group">
                     <label for="regGenero">⚧ Género *</label>
                     <select id="regGenero" class="form-control" required>
-                        <option value="">Selecciona tu género</option>
-                        <option value="Masculino">Masculino</option>
-                        <option value="Femenino">Femenino</option>
-                        <option value="Otro">Otro</option>
+                        <!-- Opciones se agregan dinámicamente por form-selectors.js -->
                     </select>
                 </div>
                 
+                <!-- Input para "Otro" género (se muestra/oculta automáticamente) -->
                 <div class="form-group hidden" id="otroGeneroContainer">
                     <label for="regOtroGenero">Especifica tu género *</label>
                     <input type="text" id="regOtroGenero" class="form-control" placeholder="Por favor especifica">
@@ -103,24 +104,34 @@
                     <input type="number" id="regEdad" class="form-control" placeholder="Tu edad" required min="18" max="100">
                 </div>
                 
+                <!-- Profesión - Se convierte automáticamente en select -->
                 <div class="form-group">
                     <label for="regProfesion">🎓 Profesión *</label>
-                    <input type="text" id="regProfesion" class="form-control" placeholder="Tu profesión u oficio" required>
+                    <select id="regProfesion" class="form-control" required>
+                        <!-- Opciones se agregan dinámicamente por form-selectors.js -->
+                    </select>
                 </div>
+                <!-- Input para "Otra" profesión se agrega dinámicamente -->
                 
+                <!-- Cargo - Se convierte automáticamente en select -->
                 <div class="form-group">
                     <label for="regCargo">💼 Cargo *</label>
-                    <input type="text" id="regCargo" class="form-control" placeholder="Tu cargo actual" required>
+                    <select id="regCargo" class="form-control" required>
+                        <!-- Opciones se agregan dinámicamente por form-selectors.js -->
+                    </select>
                 </div>
+                <!-- Input para "Otro" cargo se agrega dinámicamente -->
                 
                 <div class="form-group">
                     <label for="regPassword">🔒 Contraseña *</label>
                     <input type="password" id="regPassword" class="form-control" placeholder="Mínimo 6 caracteres" required minlength="6">
                 </div>
+                
                 <div class="form-group">
                     <label for="regPasswordConfirm">🔒 Confirmar Contraseña *</label>
                     <input type="password" id="regPasswordConfirm" class="form-control" placeholder="Repite tu contraseña" required>
                 </div>
+                
                 <button type="submit" class="btn btn-secondary btn-block">
                     ✏️ Registrarse
                 </button>
@@ -157,5 +168,6 @@
     </div>
 
     <script src="js/index.js"></script>
+    <script src="js/form-selectors.js"></script>
 </body>
 </html>
