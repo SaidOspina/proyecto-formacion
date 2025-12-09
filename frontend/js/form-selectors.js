@@ -50,21 +50,11 @@ const CARGOS_LISTA = [
     'Coordinador/a',
     'Supervisor/a',
     'Jefe de Área',
-    'Líder de Proyecto',
-    'Analista',
-    'Especialista',
-    'Consultor/a',
-    'Asesor/a',
     'Asistente',
-    'Auxiliar',
-    'Técnico/a',
+    'Auxiliar Logístico',
     'Operario/a',
     'Profesional',
-    'Practicante',
-    'Voluntario/a',
     'Funcionario/a Público',
-    'Docente',
-    'Investigador/a',
     'Otro'
 ].sort();
 

@@ -771,7 +771,7 @@ body {
 /* ===== CERTIFICADO ===== */
 .certificado-container {
     padding: 40px 20px;
-    max-width: 900px;
+    max-width: 1000px; 
     width: 100%;
     margin: 0 auto;
 }
@@ -780,12 +780,13 @@ body {
     background: linear-gradient(135deg, #fefefe 0%, #f5f5f0 100%);
     border: 12px solid;
     border-image: linear-gradient(135deg, #d4af37, #f5d061, #d4af37) 1;
-    padding: 50px;
+    padding: 60px 80px;  /* Cambiado: más padding horizontal */
     text-align: center;
     position: relative;
     box-shadow: 0 15px 50px rgba(0,0,0,0.3);
     width: 100%;
     max-width: 100%;
+    min-height: 700px;  /* Agregado: altura mínima */
 }
 
 .certificado::before, .certificado::after {
@@ -890,15 +891,16 @@ body {
 
 .certificado-codigo {
     position: absolute;
-    bottom: 30px;
+    bottom: 10px;  /* ← Cambiar de 30px a 10px */
     left: 50%;
     transform: translateX(-50%);
     font-family: 'Poppins', sans-serif;
     font-weight: 400;
-    font-size: 0.8rem;
+    font-size: 0.75rem;  /* ← Reducir tamaño de fuente */
     color: #999;
     max-width: 90%;
     word-wrap: break-word;
+    text-align: center;  /* ← Agregar centrado */
 }
 
 /* ===== ADMIN ===== */
